@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -50,8 +51,17 @@ android {
 }
 
 dependencies {
+    implementation("com.google.firebase:firebase-auth:21.0.9")
+    implementation("com.google.firebase:firebase-firestore:24.0.3")
+    implementation("androidx.compose.ui:ui:1.4.0")
+    implementation("androidx.compose.material:material:1.4.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("androidx.navigation:navigation-compose:2.7.1")
     implementation("androidx.compose.material:material:1.5.1")
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -60,6 +70,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.auth.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

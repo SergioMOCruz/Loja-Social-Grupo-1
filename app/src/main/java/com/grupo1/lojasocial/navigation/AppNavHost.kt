@@ -9,10 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.android.play.integrity.internal.u
 import com.grupo1.lojasocial.ui.components.BottomNavigationBar
 import com.grupo1.lojasocial.ui.screens.HomeScreen
 import com.grupo1.lojasocial.ui.screens.LoginScreen
 import com.grupo1.lojasocial.ui.screens.PeopleScreen
+import com.grupo1.lojasocial.ui.screens.SettingsScreen
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
 import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
 import com.grupo1.lojasocial.viewmodel.SearchViewModel
@@ -95,7 +97,12 @@ fun AppNavHost(
 
             composable(Screen.Register.route) {  }
             composable(Screen.Statistics.route) {  }
-            composable(Screen.Settings.route) {  }
+            composable(Screen.Settings.route) {
+                SettingsScreen(
+                    authViewModel = authViewModel,
+                    onLogout = { navController.navigate("login") }
+                )
+            }
         }
     }
 }

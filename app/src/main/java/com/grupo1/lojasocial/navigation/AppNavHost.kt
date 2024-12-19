@@ -10,13 +10,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.grupo1.lojasocial.ui.components.BottomNavigationBar
+import com.grupo1.lojasocial.ui.screens.HomeScreen
 import com.grupo1.lojasocial.ui.screens.LoginScreen
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
+import com.grupo1.lojasocial.viewmodel.UserViewModel
+import com.grupo1.lojasocial.viewmodel.VisitsViewModel
 
 
 @Composable
 fun AppNavHost(
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel,
+    userViewModel: UserViewModel,
+    visitsViewModel: VisitsViewModel
 ) {
     val navController = rememberNavController()
 
@@ -69,7 +74,12 @@ fun AppNavHost(
                 }
             }
 
-            composable(Screen.Home.route) {  }
+            composable(Screen.Home.route) {
+                HomeScreen(
+                    userViewModel = userViewModel,
+                    visitsViewModel = visitsViewModel
+                )
+            }
             composable(Screen.People.route) {  }
             composable(Screen.Register.route) {  }
             composable(Screen.Statistics.route) {  }

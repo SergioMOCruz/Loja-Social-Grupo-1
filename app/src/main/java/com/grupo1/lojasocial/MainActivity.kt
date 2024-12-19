@@ -12,6 +12,7 @@ import com.grupo1.lojasocial.navigation.AppNavHost
 import com.grupo1.lojasocial.ui.theme.LojaSocialTheme
 import com.grupo1.lojasocial.ui.theme.primaryBackground
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
+import com.grupo1.lojasocial.viewmodel.SearchViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
 import com.grupo1.lojasocial.viewmodel.VisitsViewModel
 
@@ -20,6 +21,7 @@ class MainActivity : ComponentActivity() {
     private val authViewModel: AuthViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
     private val visitsViewModel: VisitsViewModel by viewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +35,8 @@ class MainActivity : ComponentActivity() {
                     AppNavHost(
                         authViewModel = authViewModel,
                         userViewModel = userViewModel,
-                        visitsViewModel = visitsViewModel
+                        visitsViewModel = visitsViewModel,
+                        searchViewModel = searchViewModel,
                     )
                 }
             }

@@ -20,10 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.grupo1.lojasocial.domain.model.Beneficiary
+import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
 
 @Composable
 fun ProfileList(
-    profiles: List<Beneficiary>
+    profiles: List<Beneficiary>,
+    beneficiaryViewModel: BeneficiaryViewModel
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
@@ -32,7 +34,10 @@ fun ProfileList(
     ) {
         items(profiles) { profile ->
             ProfileItem(
-                profile = profile
+                profile = profile,
+                onClick = {
+                    beneficiaryViewModel.insertBeneficiary(profile)
+                },
             )
         }
     }
@@ -41,13 +46,12 @@ fun ProfileList(
 @Composable
 fun ProfileItem(
     profile: Beneficiary,
+    onClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-
-            },
+            .clickable(onClick = onClick),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -57,7 +61,7 @@ fun ProfileItem(
                 fontSize = 16.sp
             )
             Text(
-                text = profile.phone_number + " • " + profile.nacionality,
+                text = profile.phone_number + " • " + profile.nationality,
                 fontSize = 14.sp,
                 color = Color.Gray
             )

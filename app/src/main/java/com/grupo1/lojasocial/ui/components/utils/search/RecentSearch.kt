@@ -20,17 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-data class RecentSearch(
-    val name: String,
-    val phone_number: String,
-    val nacionality: String,
-)
+import com.grupo1.lojasocial.domain.model.Beneficiary
 
 @Composable
 fun RecentSearchesList(
-    recentSearches: List<RecentSearch>,
-    onRemoveClick: (RecentSearch) -> Unit,
+    recentSearches: List<Beneficiary>,
+    onRemoveClick: (Beneficiary) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -59,7 +54,7 @@ fun RecentSearchesList(
 
 @Composable
 fun RecentSearchItem(
-    recentSearch: RecentSearch,
+    recentSearch: Beneficiary,
     onRemoveClick: () -> Unit
 ) {
     Row(
@@ -73,7 +68,7 @@ fun RecentSearchItem(
                 fontSize = 16.sp
             )
             Text(
-                text = recentSearch.phone_number + " • " + recentSearch.nacionality,
+                text = recentSearch.phone_number + " • " + recentSearch.nationality,
                 fontSize = 14.sp,
                 color = Color.Gray
             )

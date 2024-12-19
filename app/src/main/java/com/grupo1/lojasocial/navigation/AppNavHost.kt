@@ -14,6 +14,7 @@ import com.grupo1.lojasocial.ui.screens.HomeScreen
 import com.grupo1.lojasocial.ui.screens.LoginScreen
 import com.grupo1.lojasocial.ui.screens.PeopleScreen
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
+import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
 import com.grupo1.lojasocial.viewmodel.SearchViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
 import com.grupo1.lojasocial.viewmodel.VisitsViewModel
@@ -25,6 +26,7 @@ fun AppNavHost(
     userViewModel: UserViewModel,
     visitsViewModel: VisitsViewModel,
     searchViewModel: SearchViewModel,
+    beneficiaryViewModel: BeneficiaryViewModel
 ) {
     val navController = rememberNavController()
 
@@ -87,6 +89,7 @@ fun AppNavHost(
             composable(Screen.People.route) {
                 PeopleScreen(
                     searchViewModel = searchViewModel,
+                    beneficiaryViewModel = beneficiaryViewModel
                 )
             }
 

@@ -19,19 +19,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.grupo1.lojasocial.ui.components.utils.search.ProfileList
-import com.grupo1.lojasocial.ui.components.utils.search.RecentSearch
 import com.grupo1.lojasocial.ui.components.utils.search.RecentSearchesList
 import com.grupo1.lojasocial.ui.components.utils.search.SearchBar
+import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
 import com.grupo1.lojasocial.viewmodel.SearchViewModel
 
 @Composable
 fun PeopleScreen(
     searchViewModel: SearchViewModel,
+    beneficiaryViewModel: BeneficiaryViewModel
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    var recentSearches by remember { mutableStateOf(emptyList<RecentSearch>()) }
 
     val searchResults by searchViewModel.searchResults.collectAsState()
+
+    val recentSearches by beneficiaryViewModel.recentSearches.collectAsState()
 
     LaunchedEffect(searchQuery) {
         if (searchQuery.length >= 3) {
@@ -64,6 +66,7 @@ fun PeopleScreen(
                 searchResults?.let {
                     ProfileList(
                         profiles = it,
+                        beneficiaryViewModel = beneficiaryViewModel
                     )
                 }
             }
@@ -85,7 +88,7 @@ fun PeopleScreen(
                 RecentSearchesList(
                     recentSearches = recentSearches,
                     onRemoveClick = { searchToRemove ->
-                        recentSearches = recentSearches.filter { it.name != searchToRemove.name }
+                        beneficiaryViewModel.deleteBeneficiary(searchToRemove)
                     }
                 )
             }

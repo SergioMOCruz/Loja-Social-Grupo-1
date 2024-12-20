@@ -1,4 +1,4 @@
-package com.grupo1.lojasocial.ui.components.utils
+package com.grupo1.lojasocial.ui.components.utils.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

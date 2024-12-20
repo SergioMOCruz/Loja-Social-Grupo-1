@@ -25,8 +25,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.grupo1.lojasocial.ui.components.utils.RecentProfileBar
 import com.grupo1.lojasocial.ui.components.utils.SessionBox
+import com.grupo1.lojasocial.ui.components.utils.search.RecentProfileBar
 import com.grupo1.lojasocial.viewmodel.UserViewModel
 import com.grupo1.lojasocial.viewmodel.VisitsViewModel
 
@@ -42,8 +42,6 @@ fun HomeScreen(
     }
 
     val recentVisits = visitsViewModel.recentVisits.value
-
-    Log.e("Visits", recentVisits.toString())
 
     val recentCheckIns = listOf(
         "Esther Howard" to "06:32 pm",

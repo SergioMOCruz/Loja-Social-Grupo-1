@@ -9,11 +9,16 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.android.play.integrity.internal.u
 import com.grupo1.lojasocial.ui.components.BottomNavigationBar
 import com.grupo1.lojasocial.ui.screens.HomeScreen
 import com.grupo1.lojasocial.ui.screens.LoginScreen
+import com.grupo1.lojasocial.ui.screens.PeopleScreen
+import com.grupo1.lojasocial.ui.screens.SettingsScreen
 import com.grupo1.lojasocial.ui.screens.sessions.SessionsListScreen
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
+import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
+import com.grupo1.lojasocial.viewmodel.SearchViewModel
 import com.grupo1.lojasocial.viewmodel.SessionsViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
 import com.grupo1.lojasocial.viewmodel.VisitsViewModel
@@ -24,6 +29,8 @@ fun AppNavHost(
     authViewModel: AuthViewModel,
     userViewModel: UserViewModel,
     visitsViewModel: VisitsViewModel,
+    searchViewModel: SearchViewModel,
+    beneficiaryViewModel: BeneficiaryViewModel,
     sessionsViewModel: SessionsViewModel
 ) {
     val navController = rememberNavController()
@@ -83,6 +90,15 @@ fun AppNavHost(
                     visitsViewModel = visitsViewModel
                 )
             }
+
+            composable(Screen.People.route) {
+                PeopleScreen(
+                    searchViewModel = searchViewModel,
+                    beneficiaryViewModel = beneficiaryViewModel
+                )
+            }
+
+            composable(Screen.Register.route) {  }
             composable(Screen.People.route) {  }
             composable(Screen.Register.route) {
                 SessionsListScreen(
@@ -91,7 +107,12 @@ fun AppNavHost(
                 )
             }
             composable(Screen.Statistics.route) {  }
-            composable(Screen.Settings.route) {  }
+            composable(Screen.Settings.route) {
+                SettingsScreen(
+                    authViewModel = authViewModel,
+                    onLogout = { navController.navigate("login") }
+                )
+            }
         }
     }
 }

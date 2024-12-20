@@ -9,14 +9,15 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.android.play.integrity.internal.u
 import com.grupo1.lojasocial.ui.components.BottomNavigationBar
 import com.grupo1.lojasocial.ui.screens.HomeScreen
 import com.grupo1.lojasocial.ui.screens.LoginScreen
 import com.grupo1.lojasocial.ui.screens.PeopleScreen
 import com.grupo1.lojasocial.ui.screens.SettingsScreen
+import com.grupo1.lojasocial.ui.screens.register.RegisterBeneficiaryScreen
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
 import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
+import com.grupo1.lojasocial.viewmodel.LocalHistoryViewModel
 import com.grupo1.lojasocial.viewmodel.SearchViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
 import com.grupo1.lojasocial.viewmodel.VisitsViewModel
@@ -28,6 +29,7 @@ fun AppNavHost(
     userViewModel: UserViewModel,
     visitsViewModel: VisitsViewModel,
     searchViewModel: SearchViewModel,
+    localHistoryViewModel: LocalHistoryViewModel,
     beneficiaryViewModel: BeneficiaryViewModel
 ) {
     val navController = rememberNavController()
@@ -90,8 +92,9 @@ fun AppNavHost(
 
             composable(Screen.People.route) {
                 PeopleScreen(
+                    navController = navController,
                     searchViewModel = searchViewModel,
-                    beneficiaryViewModel = beneficiaryViewModel
+                    localHistoryViewModel = localHistoryViewModel
                 )
             }
 
@@ -101,6 +104,13 @@ fun AppNavHost(
                 SettingsScreen(
                     authViewModel = authViewModel,
                     onLogout = { navController.navigate("login") }
+                )
+            }
+
+            composable(Screen.RegisterBeneficiary.route) {
+                RegisterBeneficiaryScreen(
+                    navController = navController,
+                    beneficiaryViewModel = beneficiaryViewModel
                 )
             }
         }

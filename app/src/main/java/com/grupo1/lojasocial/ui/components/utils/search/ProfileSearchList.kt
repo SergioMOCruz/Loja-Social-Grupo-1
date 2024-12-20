@@ -20,12 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.grupo1.lojasocial.domain.model.Beneficiary
-import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
+import com.grupo1.lojasocial.viewmodel.LocalHistoryViewModel
 
 @Composable
 fun ProfileList(
     profiles: List<Beneficiary>,
-    beneficiaryViewModel: BeneficiaryViewModel
+    localHistoryViewModel: LocalHistoryViewModel
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
@@ -36,7 +36,7 @@ fun ProfileList(
             ProfileItem(
                 profile = profile,
                 onClick = {
-                    beneficiaryViewModel.insertBeneficiary(profile)
+                    localHistoryViewModel.insertBeneficiaryHistory(profile)
                 },
             )
         }

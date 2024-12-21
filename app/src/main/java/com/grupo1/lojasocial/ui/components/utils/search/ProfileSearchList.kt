@@ -19,11 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.grupo1.lojasocial.domain.model.Beneficiary
+import com.grupo1.lojasocial.navigation.Screen
 import com.grupo1.lojasocial.viewmodel.LocalHistoryViewModel
 
 @Composable
 fun ProfileList(
+    navController: NavController,
     profiles: List<Beneficiary>,
     localHistoryViewModel: LocalHistoryViewModel
 ) {
@@ -37,6 +40,7 @@ fun ProfileList(
                 profile = profile,
                 onClick = {
                     localHistoryViewModel.insertBeneficiaryHistory(profile)
+                    navController.navigate("${Screen.ProfileBeneficiary.route}/${profile.id}")
                 },
             )
         }

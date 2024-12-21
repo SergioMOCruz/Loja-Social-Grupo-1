@@ -1,5 +1,6 @@
 package com.grupo1.lojasocial.ui.components.utils.search
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,10 +21,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.grupo1.lojasocial.domain.model.Beneficiary
+import com.grupo1.lojasocial.navigation.Screen
 
 @Composable
 fun RecentSearchesList(
+    navController: NavController,
     recentSearches: List<Beneficiary>,
     onRemoveClick: (Beneficiary) -> Unit,
 ) {
@@ -45,6 +49,9 @@ fun RecentSearchesList(
             items(recentSearches) { recentSearch ->
                 RecentSearchItem(
                     recentSearch = recentSearch,
+                    onClick = {
+                        navController.navigate("${Screen.ProfileBeneficiary.route}/${recentSearch.id}")
+                    },
                     onRemoveClick = { onRemoveClick(recentSearch) }
                 )
             }
@@ -55,10 +62,13 @@ fun RecentSearchesList(
 @Composable
 fun RecentSearchItem(
     recentSearch: Beneficiary,
+    onClick: () -> Unit,
     onRemoveClick: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

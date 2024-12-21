@@ -76,6 +76,7 @@ fun PeopleScreen(
                 searchQuery.length >= 3 -> {
                     searchResults?.let {
                         ProfileList(
+                            navController = navController,
                             profiles = it,
                             localHistoryViewModel = localHistoryViewModel
                         )
@@ -97,6 +98,7 @@ fun PeopleScreen(
 
                 recentSearches.isNotEmpty() -> {
                     RecentSearchesList(
+                        navController = navController,
                         recentSearches = recentSearches,
                         onRemoveClick = { searchToRemove ->
                             localHistoryViewModel.deleteBeneficiaryHistory(searchToRemove)

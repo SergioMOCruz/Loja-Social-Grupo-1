@@ -14,6 +14,7 @@ import com.grupo1.lojasocial.ui.screens.HomeScreen
 import com.grupo1.lojasocial.ui.screens.LoginScreen
 import com.grupo1.lojasocial.ui.screens.PeopleScreen
 import com.grupo1.lojasocial.ui.screens.SettingsScreen
+import com.grupo1.lojasocial.ui.screens.profile.ProfileBeneficiaryScreen
 import com.grupo1.lojasocial.ui.screens.register.RegisterBeneficiaryScreen
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
 import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
@@ -98,12 +99,26 @@ fun AppNavHost(
                 )
             }
 
-            composable(Screen.Register.route) {  }
+            composable(Screen.Register.route) {
+                PeopleScreen(
+                    navController = navController,
+                    searchViewModel = searchViewModel,
+                    localHistoryViewModel = localHistoryViewModel
+                )
+            }
+
             composable(Screen.Statistics.route) {  }
             composable(Screen.Settings.route) {
                 SettingsScreen(
                     authViewModel = authViewModel,
                     onLogout = { navController.navigate("login") }
+                )
+            }
+
+            composable(Screen.ProfileBeneficiary.route + "/{profileId}") {
+                ProfileBeneficiaryScreen(
+                    navController = navController,
+                    beneficiaryViewModel = beneficiaryViewModel
                 )
             }
 

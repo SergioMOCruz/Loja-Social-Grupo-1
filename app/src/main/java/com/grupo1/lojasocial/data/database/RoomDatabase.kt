@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.grupo1.lojasocial.data.model.BeneficiaryDao
 import com.grupo1.lojasocial.domain.model.Beneficiary
 
-@Database(entities = [Beneficiary::class], version = 2)
+@Database(entities = [Beneficiary::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun beneficiaryDao(): BeneficiaryDao

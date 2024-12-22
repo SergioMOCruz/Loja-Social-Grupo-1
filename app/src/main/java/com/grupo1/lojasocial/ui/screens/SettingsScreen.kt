@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DividerDefaults
@@ -26,13 +27,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.grupo1.lojasocial.domain.enums.RoleLevel
+import com.grupo1.lojasocial.navigation.Screen
 import com.grupo1.lojasocial.ui.components.utils.options.OptionCard
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
+import com.grupo1.lojasocial.viewmodel.UserViewModel
 
 
 @Composable
 fun SettingsScreen(
+    navController: NavController,
     authViewModel: AuthViewModel,
+    userViewModel: UserViewModel,
     onLogout: () -> Unit
 ) {
     Column(
@@ -70,10 +77,7 @@ fun SettingsScreen(
             HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color.LightGray)
             Spacer(modifier = Modifier.height(20.dp))
 
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
+            Row {
                 OptionCard(
                     icon = Icons.Filled.DateRange,
                     text = "Marcar Disponibilidade",
@@ -85,6 +89,18 @@ fun SettingsScreen(
                     onClick = { /* Ação */ }
                 )
             }
+            Row {
+                if(userViewModel.getUserRole() == RoleLevel.ADMIN) {
+                    OptionCard(
+                        icon = Icons.Filled.Person,
+                        text = "Adicionar Voluntário",
+                        onClick = {
+                            navController.navigate(Screen.RegisterVolunteer.route)
+                        }
+                    )
+                }
+            }
+
 
         }
 

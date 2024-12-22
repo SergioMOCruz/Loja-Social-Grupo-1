@@ -54,4 +54,12 @@ class UserRepository {
     fun getCurrentUserEmail(): String? {
         return auth.currentUser?.email
     }
+
+    suspend fun registerUser(user: Map<String, Any>) {
+        try {
+            usersCollection.add(user).await()
+        } catch (e: Exception) {
+            println("Error registering user: ${e.message}")
+        }
+    }
 }

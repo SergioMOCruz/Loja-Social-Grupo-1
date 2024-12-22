@@ -3,6 +3,7 @@ package com.grupo1.lojasocial.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.grupo1.lojasocial.data.repository.UserRepository
+import com.grupo1.lojasocial.domain.enums.RoleLevel
 import com.grupo1.lojasocial.domain.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,6 +25,28 @@ class UserViewModel(
             val email = userController.getCurrentUserEmail()
             val user = userController.getUserByEmail(email)
             _currentUser.value = user
+        }
+    }
+
+    fun getUserRole(): RoleLevel {
+        return currentUser.value?.role ?: RoleLevel.VOLUNTEER
+    }
+
+    fun registerUser(
+        name: String,
+        surname: String,
+        email: String,
+        phone_number: String
+    ) {
+        val user = mapOf(
+            "name" to name,
+            "surname" to surname,
+            "email" to email,
+            "phone_number" to phone_number
+        )
+
+        viewModelScope.launch {
+            userController.registerUser(user)
         }
     }
 }

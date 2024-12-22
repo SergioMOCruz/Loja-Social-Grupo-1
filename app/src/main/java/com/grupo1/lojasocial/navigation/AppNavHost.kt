@@ -63,6 +63,7 @@ fun AppNavHost(
             startDestination = startDestination,
             Modifier.padding(innerPadding)
         ) {
+            /* MAIN SCREENS */
             composable(Screen.Login.route) {
                 val loginState by authViewModel.loginState.collectAsState()
 
@@ -118,6 +119,7 @@ fun AppNavHost(
                 )
             }
 
+            /* SUB SCREENS */
             composable(Screen.ProfileBeneficiary.route + "/{profileId}") {
                 ProfileBeneficiaryScreen(
                     navController = navController,

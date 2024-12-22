@@ -62,11 +62,11 @@ fun ProfileBeneficiaryScreen(
     var name by remember { mutableStateOf(beneficiary.name) }
     var surname by remember { mutableStateOf(beneficiary.surname) }
     var email by remember { mutableStateOf(beneficiary.email) }
-    var phoneNumber by remember { mutableStateOf(beneficiary.phone_number) }
+    var phoneNumber by remember { mutableStateOf(beneficiary.phoneNumber) }
     var city by remember { mutableStateOf(beneficiary.city) }
-    var householdNumber by remember { mutableStateOf(beneficiary.household_number) }
+    var householdNumber by remember { mutableStateOf(beneficiary.householdNumber) }
     var nationality by remember { mutableStateOf(beneficiary.nationality) }
-    var alert_level by remember { mutableStateOf(AlertLevel.NONE) }
+    var alertLevel by remember { mutableStateOf(AlertLevel.NONE) }
     var notes by remember { mutableStateOf(beneficiaryProfile.notes) }
 
     LaunchedEffect(key1 = profileId) {
@@ -80,11 +80,11 @@ fun ProfileBeneficiaryScreen(
         name = beneficiary.name
         surname = beneficiary.surname
         email = beneficiary.email
-        phoneNumber = beneficiary.phone_number
+        phoneNumber = beneficiary.phoneNumber
         city = beneficiary.city
-        householdNumber = beneficiary.household_number
+        householdNumber = beneficiary.householdNumber
         nationality = beneficiary.nationality
-        alert_level = beneficiary.alert_level
+        alertLevel = beneficiary.alertLevel
         notes = beneficiaryProfile.notes
     }
 
@@ -172,30 +172,30 @@ fun ProfileBeneficiaryScreen(
         ) {
             WarningLevel(
                 color = Color(0x80FF0000),
-                isSelected = alert_level == AlertLevel.HIGH,
+                isSelected = alertLevel == AlertLevel.HIGH,
                 onClick = {
                     if (isEditing) {
-                        alert_level = AlertLevel.HIGH
+                        alertLevel = AlertLevel.HIGH
                     }
                 },
                 modifier = Modifier.weight(1f)
             )
             WarningLevel(
                 color = Color(0x80FFFF00),
-                isSelected = alert_level == AlertLevel.MEDIUM,
+                isSelected = alertLevel == AlertLevel.MEDIUM,
                 onClick = {
                     if (isEditing) {
-                        alert_level = AlertLevel.MEDIUM
+                        alertLevel = AlertLevel.MEDIUM
                     }
                 },
                 modifier = Modifier.weight(1f)
             )
             WarningLevel(
                 color = Color(0x8000FF00),
-                isSelected = alert_level == AlertLevel.LOW,
+                isSelected = alertLevel == AlertLevel.LOW,
                 onClick = {
                     if (isEditing) {
-                        alert_level = AlertLevel.LOW
+                        alertLevel = AlertLevel.LOW
                     }
                 },
                 modifier = Modifier.weight(1f)
@@ -289,7 +289,7 @@ fun ProfileBeneficiaryScreen(
                     householdNumber = householdNumber,
                     city = city,
                     nationality = nationality,
-                    alert_level = alert_level,
+                    alertLevel = alertLevel,
                     notes = notes
                 )
             },

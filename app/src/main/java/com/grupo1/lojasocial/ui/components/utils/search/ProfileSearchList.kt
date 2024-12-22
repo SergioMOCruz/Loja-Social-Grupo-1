@@ -65,7 +65,7 @@ fun ProfileItem(
                 fontSize = 16.sp
             )
             Text(
-                text = profile.phone_number + " • " + profile.nationality,
+                text = profile.phoneNumber + " • " + profile.nationality,
                 fontSize = 14.sp,
                 color = Color.Gray
             )

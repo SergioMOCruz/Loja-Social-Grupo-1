@@ -22,9 +22,9 @@ class VisitsViewModel(
             val visits = visitsController.getLast5Visits()
 
             val visitsWithNames = visits?.map { visit ->
-                val user = visit.user_id.let { userController.getUserByUid(it) }
+                val user = visit.userId.let { userController.getUserByUid(it) }
 
-                visit.copy(name = (user?.name + " " + user?.surname) ?: "Unknown")
+                visit.copy(name = (user?.name + " " + user?.surname))
             } ?: emptyList()
 
             _recentVisits.value = visitsWithNames

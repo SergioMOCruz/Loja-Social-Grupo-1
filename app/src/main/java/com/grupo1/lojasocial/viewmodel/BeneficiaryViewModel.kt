@@ -43,6 +43,7 @@ class BeneficiaryViewModel(
                 "household_number" to householdNumber,
                 "city" to city,
                 "nationality" to nationality,
+                "alert_level" to AlertLevel.NONE,
                 "notes" to notes
             )
 
@@ -67,7 +68,7 @@ class BeneficiaryViewModel(
         householdNumber: String,
         city: String,
         nationality: String,
-        alert_level: AlertLevel,
+        alertLevel: AlertLevel,
         notes: List<String>
     ) {
         viewModelScope.launch {
@@ -79,7 +80,7 @@ class BeneficiaryViewModel(
                 "household_number" to householdNumber,
                 "city" to city,
                 "nationality" to nationality,
-                "alert_level" to alert_level.name,
+                "alert_level" to alertLevel,
                 "notes" to notes
             )
 

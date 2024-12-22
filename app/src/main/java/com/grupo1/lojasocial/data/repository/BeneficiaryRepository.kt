@@ -33,11 +33,11 @@ class BeneficiaryRepository {
                 val data = documentSnapshot.data
                 val name = (data?.get("name") as? String) ?: ""
                 val email = (data?.get("email") as? String) ?: ""
-                val phone_number = (data?.get("phone_number") as? String) ?: ""
-                val household_number = (data?.get("household_number") as? String) ?: ""
+                val phoneNumber = (data?.get("phone_number") as? String) ?: ""
+                val householdNumber = (data?.get("household_number") as? String) ?: ""
                 val city = (data?.get("city") as? String) ?: ""
                 val nationality = (data?.get("nationality") as? String) ?: ""
-                val alert_level: AlertLevel = when (data?.get("alert_level") as? String) {
+                val alertLevel: AlertLevel = when (data?.get("alert_level") as? String) {
                     "HIGH" -> AlertLevel.HIGH
                     "MEDIUM" -> AlertLevel.MEDIUM
                     "LOW" -> AlertLevel.LOW
@@ -48,11 +48,11 @@ class BeneficiaryRepository {
                 val beneficiary = Beneficiary(
                     name = name,
                     email = email,
-                    phone_number = phone_number,
-                    household_number = household_number,
+                    phoneNumber = phoneNumber,
+                    householdNumber = householdNumber,
                     city = city,
                     nationality = nationality,
-                    alert_level = alert_level
+                    alertLevel = alertLevel
                 )
                 BeneficiaryWithNotes(beneficiary, notes)
             } else {

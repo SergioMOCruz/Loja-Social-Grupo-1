@@ -78,7 +78,7 @@ fun RecentSearchItem(
                 fontSize = 16.sp
             )
             Text(
-                text = recentSearch.phone_number + " • " + recentSearch.nationality,
+                text = recentSearch.phoneNumber + " • " + recentSearch.nationality,
                 fontSize = 14.sp,
                 color = Color.Gray
             )

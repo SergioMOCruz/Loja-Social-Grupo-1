@@ -36,13 +36,13 @@ class UserViewModel(
         name: String,
         surname: String,
         email: String,
-        phone_number: String
+        phoneNumber: String
     ) {
         val user = mapOf(
             "name" to name,
             "surname" to surname,
             "email" to email,
-            "phone_number" to phone_number
+            "phone_number" to phoneNumber
         )
 
         viewModelScope.launch {

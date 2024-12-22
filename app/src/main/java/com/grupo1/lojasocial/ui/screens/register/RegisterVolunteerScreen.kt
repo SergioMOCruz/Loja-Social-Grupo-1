@@ -33,7 +33,7 @@ fun RegisterVolunteerScreen(
     var name by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var phone_number by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -77,8 +77,8 @@ fun RegisterVolunteerScreen(
         )
 
         OutlinedTextField(
-            value = phone_number,
-            onValueChange = { phone_number = it },
+            value = phoneNumber,
+            onValueChange = { phoneNumber = it },
             label = { Text("Nº Telemóvel") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -92,7 +92,7 @@ fun RegisterVolunteerScreen(
                     name = name,
                     surname = surname,
                     email = email,
-                    phone_number = phone_number
+                    phoneNumber = phoneNumber
                 )
 
                 navController.popBackStack()

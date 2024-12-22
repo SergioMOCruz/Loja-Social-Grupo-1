@@ -12,11 +12,11 @@ data class Beneficiary(
     var name: String = "",
     var surname: String = "",
     var email: String = "",
-    var phone_number: String = "",
-    var household_number: String = "",
+    var phoneNumber: String = "",
+    var householdNumber: String = "",
     var city: String = "",
     var nationality: String = "",
-    var alert_level: AlertLevel = AlertLevel.NONE,
+    var alertLevel: AlertLevel = AlertLevel.NONE,
     val createdAt: String = Timestamp(System.currentTimeMillis()).toString()
 )
 

@@ -74,7 +74,7 @@ fun RecentSearchItem(
     ) {
         Column {
             Text(
-                text = recentSearch.name,
+                text = recentSearch.name + " " + recentSearch.surname,
                 fontSize = 16.sp
             )
             Text(

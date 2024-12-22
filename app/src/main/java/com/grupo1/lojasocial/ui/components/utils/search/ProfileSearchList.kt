@@ -61,7 +61,7 @@ fun ProfileItem(
     ) {
         Column {
             Text(
-                text = profile.name,
+                text = profile.name + " " + profile.surname,
                 fontSize = 16.sp
             )
             Text(

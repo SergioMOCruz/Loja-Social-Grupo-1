@@ -10,6 +10,7 @@ import java.sql.Timestamp
 data class Beneficiary(
     @PrimaryKey val id: String = "",
     var name: String = "",
+    var surname: String = "",
     var email: String = "",
     var phone_number: String = "",
     var household_number: String = "",

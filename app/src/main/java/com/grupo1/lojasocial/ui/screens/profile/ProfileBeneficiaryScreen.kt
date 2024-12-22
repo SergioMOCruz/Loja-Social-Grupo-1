@@ -1,6 +1,5 @@
 package com.grupo1.lojasocial.ui.screens.profile
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -61,6 +60,7 @@ fun ProfileBeneficiaryScreen(
 
     var isEditing by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf(beneficiary.name) }
+    var surname by remember { mutableStateOf(beneficiary.surname) }
     var email by remember { mutableStateOf(beneficiary.email) }
     var phoneNumber by remember { mutableStateOf(beneficiary.phone_number) }
     var city by remember { mutableStateOf(beneficiary.city) }
@@ -78,6 +78,7 @@ fun ProfileBeneficiaryScreen(
     LaunchedEffect(beneficiaryProfile) {
         beneficiary = beneficiaryProfile.beneficiary
         name = beneficiary.name
+        surname = beneficiary.surname
         email = beneficiary.email
         phoneNumber = beneficiary.phone_number
         city = beneficiary.city
@@ -104,7 +105,7 @@ fun ProfileBeneficiaryScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProfileLabel(
-                label = "Nome Completo",
+                label = "Nome Próprio",
                 value = name,
                 isEditable = isEditing,
                 onValueChange = { name = it }
@@ -119,6 +120,12 @@ fun ProfileBeneficiaryScreen(
             )
         }
 
+        ProfileLabel(
+            label = "Apelido",
+            value = surname,
+            isEditable = isEditing,
+            onValueChange = { email = it }
+        )
         ProfileLabel(
             label = "Email",
             value = email,
@@ -276,6 +283,7 @@ fun ProfileBeneficiaryScreen(
                 beneficiaryViewModel.updateBeneficiaryProfile(
                     profileId = profileId!!,
                     name = name,
+                    surname = surname,
                     email = email,
                     phoneNumber = phoneNumber,
                     householdNumber = householdNumber,

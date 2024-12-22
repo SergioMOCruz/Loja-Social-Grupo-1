@@ -26,6 +26,7 @@ class BeneficiaryViewModel(
 
     fun registerBeneficiary(
         name: String,
+        surname: String,
         email: String,
         phoneNumber: String,
         householdNumber: String,
@@ -36,6 +37,7 @@ class BeneficiaryViewModel(
         viewModelScope.launch {
             val newBeneficiaryData = mapOf(
                 "name" to name,
+                "surname" to surname,
                 "email" to email,
                 "phone_number" to phoneNumber,
                 "household_number" to householdNumber,
@@ -59,6 +61,7 @@ class BeneficiaryViewModel(
     fun updateBeneficiaryProfile(
         profileId: String,
         name: String,
+        surname: String,
         email: String,
         phoneNumber: String,
         householdNumber: String,
@@ -70,6 +73,7 @@ class BeneficiaryViewModel(
         viewModelScope.launch {
             val updatedBeneficiaryData = mapOf(
                 "name" to name,
+                "surname" to surname,
                 "email" to email,
                 "phone_number" to phoneNumber,
                 "household_number" to householdNumber,

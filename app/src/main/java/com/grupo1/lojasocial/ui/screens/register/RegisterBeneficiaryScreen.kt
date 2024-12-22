@@ -41,6 +41,7 @@ fun RegisterBeneficiaryScreen(
     beneficiaryViewModel: BeneficiaryViewModel
 ) {
     var name by remember { mutableStateOf("") }
+    var surname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
     var householdNumber by remember { mutableStateOf("") }
@@ -64,7 +65,17 @@ fun RegisterBeneficiaryScreen(
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Nome Completo") },
+            label = { Text("Nome Próprio") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+            singleLine = true
+        )
+
+        OutlinedTextField(
+            value = surname,
+            onValueChange = { surname = it },
+            label = { Text("Apelido") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
@@ -172,6 +183,7 @@ fun RegisterBeneficiaryScreen(
             onClick = {
                 beneficiaryViewModel.registerBeneficiary(
                     name = name,
+                    surname = surname,
                     email = email,
                     phoneNumber = phoneNumber,
                     householdNumber = householdNumber,

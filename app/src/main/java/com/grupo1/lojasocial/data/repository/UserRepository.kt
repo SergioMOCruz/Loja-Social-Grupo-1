@@ -11,24 +11,6 @@ class UserRepository {
 
     private val usersCollection = db.collection("users")
 
-    suspend fun getUserByUid(uid: String?): User? {
-        return try {
-            val document = usersCollection.document(uid ?: return null).get().await()
-
-            if (document.exists()) {
-                val user = document.toObject(User::class.java)?.copy(id = document.id)
-
-                user
-            } else {
-                null
-            }
-        } catch (e: Exception) {
-            println("Error fetching user: ${e.message}")
-            null
-        }
-    }
-
-
     suspend fun getUserByEmail(email: String?): User? {
         return try {
             val querySnapshot = usersCollection

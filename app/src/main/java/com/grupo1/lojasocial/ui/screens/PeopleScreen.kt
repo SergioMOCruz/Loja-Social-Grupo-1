@@ -27,7 +27,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.grupo1.lojasocial.navigation.Screen
 import com.grupo1.lojasocial.ui.components.utils.search.ProfileList
-import com.grupo1.lojasocial.ui.components.utils.search.RecentSearchesList
 import com.grupo1.lojasocial.ui.components.utils.search.SearchBar
 import com.grupo1.lojasocial.viewmodel.LocalHistoryViewModel
 import com.grupo1.lojasocial.viewmodel.SearchViewModel
@@ -76,9 +75,13 @@ fun PeopleScreen(
                 searchQuery.length >= 3 -> {
                     searchResults?.let {
                         ProfileList(
-                            navController = navController,
+                            type = "enter_profile",
                             profiles = it,
-                            localHistoryViewModel = localHistoryViewModel
+                            onClick = { profile ->
+                                localHistoryViewModel.insertBeneficiaryHistory(profile)
+                                navController.navigate("${Screen.ProfileBeneficiary.route}/${profile.id}")
+                            },
+                            onRemoveClick = {}
                         )
                     }
                 }
@@ -97,9 +100,13 @@ fun PeopleScreen(
                 }
 
                 recentSearches.isNotEmpty() -> {
-                    RecentSearchesList(
-                        navController = navController,
-                        recentSearches = recentSearches,
+                    ProfileList(
+                        type = "recent_profile",
+                        profiles = recentSearches,
+                        onClick = { profile ->
+                            localHistoryViewModel.insertBeneficiaryHistory(profile)
+                            navController.navigate("${Screen.ProfileBeneficiary.route}/${profile.id}")
+                        },
                         onRemoveClick = { searchToRemove ->
                             localHistoryViewModel.deleteBeneficiaryHistory(searchToRemove)
                         }

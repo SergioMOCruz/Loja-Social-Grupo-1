@@ -4,14 +4,14 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.grupo1.lojasocial.data.repository.UserRepository
+import com.grupo1.lojasocial.data.repository.BeneficiaryRepository
 import com.grupo1.lojasocial.data.repository.VisitsRepository
 import com.grupo1.lojasocial.domain.model.Visit
 import kotlinx.coroutines.launch
 
 class VisitsViewModel(
-    private val visitsController: VisitsRepository = VisitsRepository(),
-    private val userController: UserRepository = UserRepository()
+    private val visitsRepository: VisitsRepository = VisitsRepository(),
+    private val beneficiaryRepository: BeneficiaryRepository = BeneficiaryRepository(),
 ) : ViewModel() {
 
     private val _recentVisits = mutableStateOf<List<Visit>?>(null)
@@ -19,12 +19,12 @@ class VisitsViewModel(
 
     fun getLast5Visits() {
         viewModelScope.launch {
-            val visits = visitsController.getLast5Visits()
+            val visits = visitsRepository.getLast5Visits()
 
             val visitsWithNames = visits?.map { visit ->
-                val user = visit.user_id.let { userController.getUserByUid(it) }
+                val beneficiary = beneficiaryRepository.getBeneficiaryByUid(visit.beneficiaryId)
 
-                visit.copy(name = (user?.name + " " + user?.surname) ?: "Unknown")
+                visit.copy(name = (beneficiary?.name + " " + beneficiary?.surname))
             } ?: emptyList()
 
             _recentVisits.value = visitsWithNames

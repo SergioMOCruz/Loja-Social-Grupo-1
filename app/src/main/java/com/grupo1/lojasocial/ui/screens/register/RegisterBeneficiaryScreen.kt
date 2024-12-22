@@ -59,7 +59,7 @@ fun RegisterBeneficiaryScreen(
     ) {
         SubHeaderScreen(
             title = "Registar Novo Beneficiário",
-            navController = navController
+            navController
         )
 
         OutlinedTextField(

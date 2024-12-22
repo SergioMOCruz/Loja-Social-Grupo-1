@@ -18,16 +18,16 @@ class VisitsRepository {
                 .get()
                 .await()
 
-            if (!querySnapshot.isEmpty) {
-                querySnapshot.documents.mapNotNull { document ->
-                    document.toObject(Visit::class.java)
-                }
-            } else {
-                null
+            querySnapshot.documents.mapNotNull { document ->
+                val userId = document.getString("beneficiaryId") ?: return@mapNotNull null
+                val date = document.getTimestamp("date") ?: return@mapNotNull null
+
+                Visit(userId, "", date)
             }
         } catch (e: Exception) {
             println("Error fetching last 5 visits: ${e.message}")
             null
         }
     }
+
 }

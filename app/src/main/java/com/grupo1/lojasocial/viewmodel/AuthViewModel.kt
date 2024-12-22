@@ -8,18 +8,18 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
-    private val authController: AuthRepository = AuthRepository()
+    private val authRepository: AuthRepository = AuthRepository()
 ) : ViewModel() {
 
     private val _loginState = MutableStateFlow<Result<Unit>?>(null)
     val loginState: StateFlow<Result<Unit>?> = _loginState
 
-    private val _isLoggedIn = MutableStateFlow(authController.isLoggedIn())
+    private val _isLoggedIn = MutableStateFlow(authRepository.isLoggedIn())
     val isLoggedIn: StateFlow<Boolean> = _isLoggedIn
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
-            val result = authController.login(email, password)
+            val result = authRepository.login(email, password)
             _loginState.value = result
 
             if (result.isSuccess) {
@@ -29,7 +29,7 @@ class AuthViewModel(
     }
 
     fun logout() {
-        authController.logout()
+        authRepository.logout()
         _isLoggedIn.value = false
     }
 

@@ -59,8 +59,8 @@ fun AppNavHost(
         }
     ) { innerPadding ->
         NavHost(
-            navController = navController,
-            startDestination = startDestination,
+            navController,
+            startDestination,
             Modifier.padding(innerPadding)
         ) {
             /* MAIN SCREENS */
@@ -75,7 +75,7 @@ fun AppNavHost(
                     onLoginClick = { email, password ->
                         authViewModel.login(email, password)
                     },
-                    loginError = loginError
+                    loginError
                 )
 
                 if (loginState?.isSuccess == true) {
@@ -88,33 +88,34 @@ fun AppNavHost(
 
             composable(Screen.Home.route) {
                 HomeScreen(
-                    userViewModel = userViewModel,
-                    visitsViewModel = visitsViewModel
+                    navController,
+                    userViewModel,
+                    visitsViewModel
                 )
             }
 
             composable(Screen.People.route) {
                 PeopleScreen(
-                    navController = navController,
-                    searchViewModel = searchViewModel,
-                    localHistoryViewModel = localHistoryViewModel
+                    navController,
+                    searchViewModel,
+                    localHistoryViewModel
                 )
             }
 
             composable(Screen.Register.route) {
                 PeopleScreen(
-                    navController = navController,
-                    searchViewModel = searchViewModel,
-                    localHistoryViewModel = localHistoryViewModel
+                    navController,
+                    searchViewModel,
+                    localHistoryViewModel
                 )
             }
 
             composable(Screen.Statistics.route) {  }
             composable(Screen.Settings.route) {
                 SettingsScreen(
-                    navController = navController,
-                    authViewModel = authViewModel,
-                    userViewModel = userViewModel,
+                    navController,
+                    authViewModel,
+                    userViewModel,
                     onLogout = { navController.navigate("login") }
                 )
             }
@@ -122,22 +123,22 @@ fun AppNavHost(
             /* SUB SCREENS */
             composable(Screen.ProfileBeneficiary.route + "/{profileId}") {
                 ProfileBeneficiaryScreen(
-                    navController = navController,
+                    navController,
                     beneficiaryViewModel = beneficiaryViewModel
                 )
             }
 
             composable(Screen.RegisterBeneficiary.route) {
                 RegisterBeneficiaryScreen(
-                    navController = navController,
-                    beneficiaryViewModel = beneficiaryViewModel
+                    navController,
+                    beneficiaryViewModel
                 )
             }
 
             composable(Screen.RegisterVolunteer.route) {
                 RegisterVolunteerScreen(
-                    navController = navController,
-                    userViewModel = userViewModel
+                    navController,
+                    userViewModel
                 )
             }
         }

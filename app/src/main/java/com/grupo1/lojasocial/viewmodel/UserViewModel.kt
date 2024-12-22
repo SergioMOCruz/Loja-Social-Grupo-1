@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class UserViewModel(
-    private val userController: UserRepository = UserRepository()
+    private val userRepository: UserRepository = UserRepository()
 ) : ViewModel() {
 
     private val _currentUser = MutableStateFlow<User?>(null)
@@ -22,8 +22,8 @@ class UserViewModel(
 
     private fun getCurrentUser() {
         viewModelScope.launch {
-            val email = userController.getCurrentUserEmail()
-            val user = userController.getUserByEmail(email)
+            val email = userRepository.getCurrentUserEmail()
+            val user = userRepository.getUserByEmail(email)
             _currentUser.value = user
         }
     }
@@ -42,11 +42,11 @@ class UserViewModel(
             "name" to name,
             "surname" to surname,
             "email" to email,
-            "phone_number" to phoneNumber
+            "phoneNumber" to phoneNumber
         )
 
         viewModelScope.launch {
-            userController.registerUser(user)
+            userRepository.registerUser(user)
         }
     }
 }

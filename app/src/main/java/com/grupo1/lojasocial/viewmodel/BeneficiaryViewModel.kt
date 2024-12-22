@@ -39,11 +39,11 @@ class BeneficiaryViewModel(
                 "name" to name,
                 "surname" to surname,
                 "email" to email,
-                "phone_number" to phoneNumber,
-                "household_number" to householdNumber,
+                "phoneNumber" to phoneNumber,
+                "householdNumber" to householdNumber,
                 "city" to city,
                 "nationality" to nationality,
-                "alert_level" to AlertLevel.NONE,
+                "alertLevel" to AlertLevel.NONE,
                 "notes" to notes
             )
 
@@ -76,11 +76,11 @@ class BeneficiaryViewModel(
                 "name" to name,
                 "surname" to surname,
                 "email" to email,
-                "phone_number" to phoneNumber,
-                "household_number" to householdNumber,
+                "phoneNumber" to phoneNumber,
+                "householdNumber" to householdNumber,
                 "city" to city,
                 "nationality" to nationality,
-                "alert_level" to alertLevel,
+                "alertLevel" to alertLevel,
                 "notes" to notes
             )
 

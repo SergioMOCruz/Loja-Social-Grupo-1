@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.grupo1.lojasocial.ui.components.utils.SessionBox
 import com.grupo1.lojasocial.ui.components.utils.search.RecentProfileBar
 import com.grupo1.lojasocial.viewmodel.UserViewModel
@@ -31,6 +32,7 @@ import com.grupo1.lojasocial.viewmodel.VisitsViewModel
 
 @Composable
 fun HomeScreen(
+    navController: NavController,
     userViewModel: UserViewModel,
     visitsViewModel: VisitsViewModel
 ) {
@@ -101,10 +103,11 @@ fun HomeScreen(
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
-            recentVisits?.forEach { (_, name, time) ->
-                if (name != null) {
-                    RecentProfileBar(name = name, time = time)
-                }
+            recentVisits?.forEach { visit ->
+                RecentProfileBar(
+                    navController,
+                    visit
+                )
             }
 
             Spacer(modifier = Modifier.height(24.dp))

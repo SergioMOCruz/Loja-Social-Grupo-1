@@ -96,7 +96,7 @@ fun ProfileBeneficiaryScreen(
     ) {
         SubHeaderScreen(
             title = "Perfil Beneficiário",
-            navController = navController
+            navController
         )
 
         Row(

@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.grupo1.lojasocial.ui.components.utils.inputs.GenericInputField
+import com.grupo1.lojasocial.ui.components.utils.inputs.PasswordInput
 import com.grupo1.lojasocial.ui.screens.header.SubHeaderScreen
 import com.grupo1.lojasocial.utils.isValidEmail
 import com.grupo1.lojasocial.viewmodel.UserViewModel
@@ -33,6 +34,7 @@ fun RegisterVolunteerScreen(
     var name by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
 
     Column(
@@ -43,6 +45,7 @@ fun RegisterVolunteerScreen(
     ) {
         SubHeaderScreen(
             title = "Registar Novo Voluntário",
+            subtitle = "Preencha os campos abaixo",
             navController
         )
 
@@ -61,6 +64,11 @@ fun RegisterVolunteerScreen(
             value = email,
             onValueChange = { email = it }
         )
+        PasswordInput(
+            value = password,
+            onValueChange = { password = it },
+            label = "Password"
+        )
         GenericInputField(
             label = "Nº Telemóvel",
             value = phoneNumber,
@@ -73,12 +81,13 @@ fun RegisterVolunteerScreen(
                     name = name,
                     surname = surname,
                     email = email,
+                    password = password,
                     phoneNumber = phoneNumber
                 )
 
                 navController.popBackStack()
             },
-            enabled = name.isNotEmpty() && isValidEmail(email)  && email.isNotEmpty(),
+            enabled = name.isNotEmpty() && isValidEmail(email)  && email.isNotEmpty() && password.length >= 6,
             shape = RoundedCornerShape(4.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
             modifier = Modifier

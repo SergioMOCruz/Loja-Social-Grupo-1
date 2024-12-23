@@ -19,7 +19,9 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
     object Settings : Screen("settings", "Definições", Icons.Default.Settings)
 
     /* SUB SCREENS */
+    object ManageVolunteers : Screen("manage_volunteers", "Gerir Voluntários", Icons.Default.Person)
     object ProfileBeneficiary : Screen("profile_beneficiary", "Perfil Beneficiário", Icons.Default.Person)
+    object ProfileVolunteer : Screen("profile_volunteer", "Perfil Voluntário", Icons.Default.Person)
     object RegisterBeneficiary : Screen("register_beneficiary", "Registar Beneficiário", Icons.Default.Add)
     object RegisterVolunteer : Screen("register_volunteer", "Registar Voluntário", Icons.Default.Add)
     object RegisterSession : Screen("register_session", "Registar Sessão", Icons.Default.Add)

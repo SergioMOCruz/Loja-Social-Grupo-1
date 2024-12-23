@@ -60,6 +60,7 @@ fun RegisterBeneficiaryScreen(
     ) {
         SubHeaderScreen(
             title = "Registar Novo Beneficiário",
+            subtitle = "Preencha os campos abaixo",
             navController
         )
 

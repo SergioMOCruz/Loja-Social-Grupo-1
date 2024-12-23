@@ -16,37 +16,74 @@ class UserViewModel(
     private val _currentUser = MutableStateFlow<User?>(null)
     val currentUser: StateFlow<User?> = _currentUser
 
+    private val _searchedUser = MutableStateFlow<User?>(null)
+    val searchedUser: StateFlow<User?> = _searchedUser
+
+    private val _currentUserRole = MutableStateFlow(RoleLevel.VOLUNTEER)
+    val currentUserRole: StateFlow<RoleLevel> = _currentUserRole
+
     init {
         getCurrentUser()
     }
 
-    private fun getCurrentUser() {
+    fun getCurrentUser() {
         viewModelScope.launch {
             val email = userRepository.getCurrentUserEmail()
             val user = userRepository.getUserByEmail(email)
             _currentUser.value = user
+            _currentUserRole.value = user?.role ?: RoleLevel.VOLUNTEER
         }
     }
 
-    fun getUserRole(): RoleLevel {
-        return currentUser.value?.role ?: RoleLevel.VOLUNTEER
+    fun getUserById(id: String) {
+        viewModelScope.launch {
+            _searchedUser.value = userRepository.getUserById(id)
+        }
     }
 
     fun registerUser(
         name: String,
         surname: String,
         email: String,
+        password: String,
         phoneNumber: String
     ) {
         val user = mapOf(
             "name" to name,
             "surname" to surname,
             "email" to email,
+            "password" to password,
             "phoneNumber" to phoneNumber
         )
 
         viewModelScope.launch {
             userRepository.registerUser(user)
+        }
+    }
+
+    fun updateUser(
+        id: String,
+        name: String,
+        surname: String,
+        email: String,
+        phoneNumber: String
+    ) {
+        val user = User(
+            id = id,
+            name = name,
+            surname = surname,
+            email = email,
+            phoneNumber = phoneNumber
+        )
+
+        viewModelScope.launch {
+            userRepository.updateUser(user)
+        }
+    }
+
+    fun deleteUser(id: String) {
+        viewModelScope.launch {
+            userRepository.deleteUser(id)
         }
     }
 }

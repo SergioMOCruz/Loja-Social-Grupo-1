@@ -41,7 +41,7 @@ fun PeopleScreen(
     val currentRoute = navBackStackEntry?.destination?.route
 
     var searchQuery by remember { mutableStateOf("") }
-    val searchResults by searchViewModel.searchResults.collectAsState()
+    val searchResults by searchViewModel.searchResultsBeneficiaries.collectAsState()
     val recentSearches by localHistoryViewModel.recentSearches.collectAsState()
 
     LaunchedEffect(searchQuery) {

@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class BeneficiaryViewModel(
-    private val beneficiaryRepository: BeneficiaryRepository = BeneficiaryRepository()
+    private val beneficiaryRepository: BeneficiaryRepository = BeneficiaryRepository(),
+    private val localHistoryViewModel: LocalHistoryViewModel = LocalHistoryViewModel()
 ) : ViewModel() {
 
     private val _registrationNotes = MutableStateFlow<List<String>>(emptyList())
@@ -83,6 +84,20 @@ class BeneficiaryViewModel(
                 "alertLevel" to alertLevel,
                 "notes" to notes
             )
+
+            val beneficiaryHistory = Beneficiary(
+                profileId,
+                name,
+                surname,
+                email,
+                phoneNumber,
+                householdNumber,
+                city,
+                nationality,
+                alertLevel
+            )
+
+            localHistoryViewModel.insertBeneficiaryHistory(beneficiaryHistory)
 
             beneficiaryRepository.updateBeneficiaryProfile(profileId, updatedBeneficiaryData)
         }

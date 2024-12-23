@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.grupo1.lojasocial.ui.components.utils.inputs.GenericInputField
 import com.grupo1.lojasocial.ui.screens.header.SubHeaderScreen
 import com.grupo1.lojasocial.utils.isValidEmail
 import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
@@ -62,74 +63,40 @@ fun RegisterBeneficiaryScreen(
             navController
         )
 
-        OutlinedTextField(
+        GenericInputField(
+            label = "Nome Próprio",
             value = name,
-            onValueChange = { name = it },
-            label = { Text("Nome Próprio") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            singleLine = true
+            onValueChange = { name = it }
         )
-
-        OutlinedTextField(
+        GenericInputField(
+            label = "Apelido",
             value = surname,
-            onValueChange = { surname = it },
-            label = { Text("Apelido") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            singleLine = true
+            onValueChange = { surname = it }
         )
-
-        OutlinedTextField(
+        GenericInputField(
+            label = "E-mail",
             value = email,
-            onValueChange = { email = it },
-            label = { Text("E-mail") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            singleLine = true
+            onValueChange = { email = it }
         )
-
-        OutlinedTextField(
+        GenericInputField(
+            label = "Nº Telemóvel",
             value = phoneNumber,
-            onValueChange = { phoneNumber = it },
-            label = { Text("Nº Telemóvel") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            singleLine = true
+            onValueChange = { phoneNumber = it }
         )
-
-        OutlinedTextField(
+        GenericInputField(
+            label = "Nº Agregado",
             value = householdNumber,
-            onValueChange = { householdNumber = it },
-            label = { Text("Nº Agregado") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            singleLine = true
+            onValueChange = { householdNumber = it }
         )
-
-        OutlinedTextField(
+        GenericInputField(
+            label = "Cidade",
             value = city,
-            onValueChange = { city = it },
-            label = { Text("Cidade") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            singleLine = true
+            onValueChange = { city = it }
         )
-
-        OutlinedTextField(
+        GenericInputField(
+            label = "Nacionalidade",
             value = nationality,
-            onValueChange = { nationality = it },
-            label = { Text("Nacionalidade") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            singleLine = true
+            onValueChange = { nationality = it }
         )
 
         Row(

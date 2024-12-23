@@ -1,6 +1,7 @@
-package com.grupo1.lojasocial.ui.components.utils
+package com.grupo1.lojasocial.ui.components.utils.sessions
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SessionBox(count: Int, label: String, icon: ImageVector, color: Color, iconColor: Color) {
+fun SessionBox(count: Int, label: String, icon: ImageVector, color: Color, iconColor: Color,  onClick : () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -28,6 +29,7 @@ fun SessionBox(count: Int, label: String, icon: ImageVector, color: Color, iconC
             .background(color, shape = RoundedCornerShape(8.dp))
             .padding(16.dp)
             .size(130.dp)
+            .clickable { onClick() }
     ) {
         Icon(
             imageVector = icon,

@@ -1,5 +1,7 @@
 package com.grupo1.lojasocial.data.repository
 
+import android.adservices.adid.AdId
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.grupo1.lojasocial.domain.model.Visit
@@ -30,4 +32,24 @@ class VisitsRepository {
         }
     }
 
+    suspend fun getVisitsByBeneficiaryId(beneficiaryId: String) : List<Visit>? {
+        Log.d("VisitsRepository", "Beneficiary id: $beneficiaryId")
+        return try {
+            val querySnapshot = visitsCollection
+                .whereEqualTo("beneficiaryId", beneficiaryId)
+                .orderBy("date", Query.Direction.DESCENDING)
+                .get()
+                .await()
+
+            querySnapshot.documents.mapNotNull { document ->
+                val userId = document.getString("beneficiaryId") ?: return@mapNotNull null
+                val date = document.getTimestamp("date") ?: return@mapNotNull null
+
+                Visit(userId, "", date)
+            }
+        } catch (e: Exception) {
+            println("Error fetching visits by beneficiary id: ${e.message}")
+            null
+        }
+    }
 }

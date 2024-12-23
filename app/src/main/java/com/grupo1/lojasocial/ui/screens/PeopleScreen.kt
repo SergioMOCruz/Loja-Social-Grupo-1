@@ -78,8 +78,12 @@ fun PeopleScreen(
                             type = "enter_profile",
                             profiles = it,
                             onClick = { profile ->
-                                localHistoryViewModel.insertBeneficiaryHistory(profile)
-                                navController.navigate("${Screen.ProfileBeneficiary.route}/${profile.id}")
+                                if (currentRoute === Screen.People.route) {
+                                    localHistoryViewModel.insertBeneficiaryHistory(profile)
+                                    navController.navigate("${Screen.ProfileBeneficiary.route}/${profile.id}")
+                                } else {
+                                    navController.navigate("${Screen.RegisterSession.route}/${profile.id}")
+                                }
                             },
                             onRemoveClick = {}
                         )

@@ -1,6 +1,8 @@
 package com.grupo1.lojasocial.ui.screens.header
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +26,7 @@ import androidx.navigation.NavController
 @Composable
 fun SubHeaderScreen(
     title: String,
+    subtitle: String,
     navController: NavController,
 ) {
     Box(
@@ -56,12 +59,26 @@ fun SubHeaderScreen(
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                color = Color.Black,
-                textAlign = TextAlign.Center
-            )
+            Column (
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = title,
+                    fontSize = 16.sp,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center
+                )
+                if (subtitle.isNotEmpty()) {
+                    Text(
+                        text = subtitle,
+                        fontSize = 12.sp,
+                        color = Color(0xFFA3A3A3),
+                        textAlign = TextAlign.Center
+                    )
+
+                }
+            }
         }
     }
 }

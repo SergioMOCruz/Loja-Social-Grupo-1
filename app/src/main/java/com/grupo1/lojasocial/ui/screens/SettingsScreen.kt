@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Face
@@ -20,6 +22,9 @@ import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,10 +47,15 @@ fun SettingsScreen(
     userViewModel: UserViewModel,
     onLogout: () -> Unit
 ) {
+    val userRole by userViewModel.currentUserRole.collectAsState()
+
+    LaunchedEffect(Unit) { userViewModel.getCurrentUser() }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 16.dp),
+            .padding(top = 16.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -90,18 +100,16 @@ fun SettingsScreen(
                 )
             }
             Row {
-                if(userViewModel.getUserRole() == RoleLevel.ADMIN) {
+                if(userRole == RoleLevel.ADMIN) {
                     OptionCard(
                         icon = Icons.Filled.Person,
-                        text = "Adicionar Voluntário",
+                        text = "Gerir Voluntários",
                         onClick = {
-                            navController.navigate(Screen.RegisterVolunteer.route)
+                            navController.navigate(Screen.ManageVolunteers.route)
                         }
                     )
                 }
             }
-
-
         }
 
         Button(

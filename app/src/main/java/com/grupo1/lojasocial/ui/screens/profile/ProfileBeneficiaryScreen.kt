@@ -96,6 +96,7 @@ fun ProfileBeneficiaryScreen(
     ) {
         SubHeaderScreen(
             title = "Perfil Beneficiário",
+            subtitle = "",
             navController
         )
 
@@ -119,7 +120,6 @@ fun ProfileBeneficiaryScreen(
                 tint = Color.Black
             )
         }
-
         ProfileLabel(
             label = "Apelido",
             value = surname,

@@ -156,7 +156,7 @@ fun RegisterSessionScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 4.dp)
-                    .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
+                    .background(Color(0xFFE0E0E0), shape = RoundedCornerShape(4.dp))
             ) {
                 Text(
                     text = it,
@@ -169,7 +169,10 @@ fun RegisterSessionScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         Button(
-            onClick = { /* TODO */ },
+            onClick = {
+                sessionsViewModel.openSession(profileId!!)
+                navController.popBackStack()
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),

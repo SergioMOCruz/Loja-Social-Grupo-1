@@ -20,7 +20,7 @@ class UserViewModel(
         getCurrentUser()
     }
 
-    private fun getCurrentUser() {
+    fun getCurrentUser() {
         viewModelScope.launch {
             val email = userRepository.getCurrentUserEmail()
             val user = userRepository.getUserByEmail(email)

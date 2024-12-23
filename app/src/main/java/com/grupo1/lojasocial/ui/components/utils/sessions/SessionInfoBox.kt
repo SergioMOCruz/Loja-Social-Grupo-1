@@ -22,7 +22,7 @@ fun InfoCard(
         modifier = modifier,
         shape = RoundedCornerShape(4.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.LightGray
+            containerColor = Color(0xFFE0E0E0),
         )
     ) {
         Column(

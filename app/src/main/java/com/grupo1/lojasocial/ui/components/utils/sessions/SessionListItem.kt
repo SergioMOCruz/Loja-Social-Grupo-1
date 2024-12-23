@@ -1,6 +1,7 @@
 package com.grupo1.lojasocial.ui.components.utils.sessions
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,8 @@ import com.grupo1.lojasocial.utils.formatTimestampToDateAndHour
 @Composable
 fun SessionItem(
     session: Session,
+    type: String,
+    onSessionClose: () -> Unit
 ) {
 
     Card(
@@ -35,39 +38,39 @@ fun SessionItem(
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(0.dp)
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = session.id_beneficiary,
+                text = session.beneficiaryName,
                 style = MaterialTheme.typography.bodyLarge
             )
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = session.enterTime?.let { formatTimestampToDateAndHour(it) } ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray
                 )
-
-                IconButton(
-                    onClick = {
-                        // sessionsViewModel.closeSession(session.id)
-                    },
-                    modifier = Modifier.size(24.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = "Encerrar Sessão",
-                        tint = Color.Gray
-                    )
+                if (type == "open") {
+                    IconButton(
+                        onClick = { onSessionClose() },
+                        modifier = Modifier.size(32.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Close session",
+                            tint = Color.Gray
+                        )
+                    }
                 }
             }
         }

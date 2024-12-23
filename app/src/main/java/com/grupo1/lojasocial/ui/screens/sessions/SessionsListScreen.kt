@@ -1,6 +1,5 @@
 package com.grupo1.lojasocial.ui.screens.sessions
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,7 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.grupo1.lojasocial.ui.components.utils.SessionItem
+import com.grupo1.lojasocial.ui.components.utils.sessions.SessionItem
 import com.grupo1.lojasocial.viewmodel.SessionsViewModel
 
 @Composable

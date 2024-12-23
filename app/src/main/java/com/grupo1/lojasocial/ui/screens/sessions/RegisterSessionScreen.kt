@@ -3,6 +3,7 @@ package com.grupo1.lojasocial.ui.screens.sessions
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,23 +11,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,21 +27,45 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.grupo1.lojasocial.ui.components.utils.InfoCard
-import com.grupo1.lojasocial.ui.components.utils.RecentProfileBar
-import com.grupo1.lojasocial.ui.components.utils.SessionBox
-import com.grupo1.lojasocial.viewmodel.UserViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.grupo1.lojasocial.domain.enums.AlertLevel
+import com.grupo1.lojasocial.ui.components.utils.sessions.InfoCard
+import com.grupo1.lojasocial.ui.screens.header.SubHeaderScreen
+import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
+import com.grupo1.lojasocial.viewmodel.SessionsViewModel
 import com.grupo1.lojasocial.viewmodel.VisitsViewModel
 
 @Composable
-fun RegisterSessionScreen() {
+fun RegisterSessionScreen(
+    navController: NavController,
+    sessionsViewModel: SessionsViewModel,
+    beneficiaryViewModel: BeneficiaryViewModel,
+    visitsViewModel: VisitsViewModel
+) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val profileId = navBackStackEntry?.arguments?.getString("profileId")
+
+    LaunchedEffect(key1 = profileId) {
+        if (profileId != null) {
+            beneficiaryViewModel.getBeneficiaryProfile(profileId)
+            visitsViewModel.getVisitsByBeneficiaryId(profileId)
+        }
+    }
+
+    val beneficiary by beneficiaryViewModel.beneficiaryProfileWithNotes.collectAsState()
+    val visits by visitsViewModel.visitsCount.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF5F5F5))
+            .background(Color.White)
             .padding(16.dp)
     ) {
+        SubHeaderScreen(
+            title = "Registar Sessão",
+            navController = navController
+        )
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -60,11 +73,11 @@ fun RegisterSessionScreen() {
         ) {
             Column {
                 Text(
-                    text = "Kathryn Murphy",
+                    text = beneficiary.beneficiary.name + " " + beneficiary.beneficiary.surname,
                     style = MaterialTheme.typography.headlineSmall
                 )
                 Text(
-                    text = "(704) 555-0127",
+                    text = beneficiary.beneficiary.email,
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray
                 )
@@ -76,7 +89,7 @@ fun RegisterSessionScreen() {
                     style = MaterialTheme.typography.labelSmall,
                 )
                 Text(
-                    text = "57",
+                    text = visits.toString(),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -91,12 +104,12 @@ fun RegisterSessionScreen() {
         ) {
             InfoCard(
                 label = "Agregado",
-                value = "7",
+                value = beneficiary.beneficiary.householdNumber,
                 modifier = Modifier.weight(1f)
             )
             InfoCard(
                 label = "Nacionalidade",
-                value = "Romênia",
+                value = beneficiary.beneficiary.nationality,
                 modifier = Modifier.weight(2f)
             )
         }
@@ -105,7 +118,7 @@ fun RegisterSessionScreen() {
 
         InfoCard(
             label = "Freguesia",
-            value = "São Vicente",
+            value = beneficiary.beneficiary.city,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -123,7 +136,13 @@ fun RegisterSessionScreen() {
                 .fillMaxWidth()
                 .height(12.dp)
                 .clip(RoundedCornerShape(4.dp)),
-            color = Color(0xFFFFB74D),
+            color = if (beneficiary.beneficiary.alertLevel == AlertLevel.HIGH) {
+                Color.Red
+            } else if (beneficiary.beneficiary.alertLevel == AlertLevel.MEDIUM) {
+                Color.Yellow
+            } else {
+                Color.Green
+            },
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -132,11 +151,20 @@ fun RegisterSessionScreen() {
             text = "Notas",
             style = MaterialTheme.typography.labelLarge
         )
-        Text(
-            text = "Este beneficiário partiu uma porta no dia 14/11/2024",
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = 4.dp)
-        )
+        beneficiary.notes.forEach {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp)
+                    .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
+            ) {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.weight(1f))
 

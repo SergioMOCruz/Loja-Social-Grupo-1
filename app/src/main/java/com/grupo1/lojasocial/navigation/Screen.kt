@@ -22,4 +22,5 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
     object ProfileBeneficiary : Screen("profile_beneficiary", "Perfil Beneficiário", Icons.Default.Person)
     object RegisterBeneficiary : Screen("register_beneficiary", "Registar Beneficiário", Icons.Default.Add)
     object RegisterVolunteer : Screen("register_volunteer", "Registar Voluntário", Icons.Default.Add)
+    object RegisterSession : Screen("register_session", "Registar Sessão", Icons.Default.Add)
 }

@@ -11,13 +11,23 @@ class SearchRepository {
     suspend fun searchBeneficiaries(query: String): List<Beneficiary> {
         if (query.length >= 3) {
             return try {
-                val querySnapshot = searchCollection
+                val nameResults = searchCollection
                     .whereEqualTo("name", query)
                     .limit(20)
                     .get()
                     .await()
 
-                querySnapshot.documents.mapNotNull { doc ->
+                val results = if (nameResults.isEmpty) {
+                    searchCollection
+                        .whereEqualTo("surname", query)
+                        .limit(20)
+                        .get()
+                        .await()
+                } else {
+                    nameResults
+                }
+
+                results.documents.mapNotNull { doc ->
                     doc.toObject(Beneficiary::class.java)?.copy(id = doc.id)
                 }
             } catch (e: Exception) {

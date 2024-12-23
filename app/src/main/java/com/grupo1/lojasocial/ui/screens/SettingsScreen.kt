@@ -1,10 +1,7 @@
 package com.grupo1.lojasocial.ui.screens
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
+
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,100 +9,100 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.grupo1.lojasocial.domain.enums.RoleLevel
+import com.grupo1.lojasocial.navigation.Screen
 import com.grupo1.lojasocial.ui.components.utils.options.OptionCard
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
-import com.grupo1.lojasocial.viewmodel.VisitsViewModel
 
 
 @Composable
 fun SettingsScreen(
+    navController: NavController,
     authViewModel: AuthViewModel,
+    userViewModel: UserViewModel,
     onLogout: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 16.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(bottom = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            IconButton(onClick = { /* Ação para voltar atrás */ }) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Voltar",
-                    tint = Color.Black
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Definições",
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
+            HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color.LightGray)
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Row {
+                OptionCard(
+                    icon = Icons.Filled.DateRange,
+                    text = "Marcar Disponibilidade",
+                    onClick = { /* Ação */ }
+                )
+                OptionCard(
+                    icon = Icons.Filled.Face,
+                    text = "Próximos Trabalhos",
+                    onClick = { /* Ação */ }
                 )
             }
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "Definições",
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.width(48.dp))
+            Row {
+                if(userViewModel.getUserRole() == RoleLevel.ADMIN) {
+                    OptionCard(
+                        icon = Icons.Filled.Person,
+                        text = "Adicionar Voluntário",
+                        onClick = {
+                            navController.navigate(Screen.RegisterVolunteer.route)
+                        }
+                    )
+                }
+            }
+
+
         }
-
-        Spacer(modifier = Modifier.height(32.dp))
-        HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color.LightGray)
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            OptionCard(
-                icon = Icons.Filled.DateRange,
-                text = "Marcar Disponibilidade",
-                onClick = { /* Ação */ }
-            )
-            OptionCard(
-                icon = Icons.Filled.Face,
-                text = "Próximos Trabalhos",
-                onClick = { /* Ação */ }
-            )
-        }
-
-        Spacer(modifier = Modifier.height(300.dp))
-        HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color.LightGray)
-        Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             onClick = {
@@ -123,4 +120,3 @@ fun SettingsScreen(
         }
     }
 }
-

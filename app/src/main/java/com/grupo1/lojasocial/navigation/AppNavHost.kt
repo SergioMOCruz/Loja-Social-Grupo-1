@@ -9,15 +9,18 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.android.play.integrity.internal.u
 import com.grupo1.lojasocial.ui.components.BottomNavigationBar
 import com.grupo1.lojasocial.ui.screens.HomeScreen
 import com.grupo1.lojasocial.ui.screens.LoginScreen
 import com.grupo1.lojasocial.ui.screens.PeopleScreen
 import com.grupo1.lojasocial.ui.screens.SettingsScreen
 import com.grupo1.lojasocial.ui.screens.sessions.SessionsListScreen
+import com.grupo1.lojasocial.ui.screens.profile.ProfileBeneficiaryScreen
+import com.grupo1.lojasocial.ui.screens.register.RegisterBeneficiaryScreen
+import com.grupo1.lojasocial.ui.screens.register.RegisterVolunteerScreen
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
 import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
+import com.grupo1.lojasocial.viewmodel.LocalHistoryViewModel
 import com.grupo1.lojasocial.viewmodel.SearchViewModel
 import com.grupo1.lojasocial.viewmodel.SessionsViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
@@ -30,6 +33,7 @@ fun AppNavHost(
     userViewModel: UserViewModel,
     visitsViewModel: VisitsViewModel,
     searchViewModel: SearchViewModel,
+    localHistoryViewModel: LocalHistoryViewModel,
     beneficiaryViewModel: BeneficiaryViewModel,
     sessionsViewModel: SessionsViewModel
 ) {
@@ -58,10 +62,11 @@ fun AppNavHost(
         }
     ) { innerPadding ->
         NavHost(
-            navController = navController,
-            startDestination = startDestination,
+            navController,
+            startDestination,
             Modifier.padding(innerPadding)
         ) {
+            /* MAIN SCREENS */
             composable(Screen.Login.route) {
                 val loginState by authViewModel.loginState.collectAsState()
 
@@ -73,7 +78,7 @@ fun AppNavHost(
                     onLoginClick = { email, password ->
                         authViewModel.login(email, password)
                     },
-                    loginError = loginError
+                    loginError
                 )
 
                 if (loginState?.isSuccess == true) {
@@ -86,31 +91,57 @@ fun AppNavHost(
 
             composable(Screen.Home.route) {
                 HomeScreen(
-                    userViewModel = userViewModel,
-                    visitsViewModel = visitsViewModel
+                    navController,
+                    userViewModel,
+                    visitsViewModel
                 )
             }
 
             composable(Screen.People.route) {
                 PeopleScreen(
-                    searchViewModel = searchViewModel,
+                    navController,
+                    searchViewModel,
+                    localHistoryViewModel
+                )
+            }
+
+            composable(Screen.Register.route) {
+                PeopleScreen(
+                    navController,
+                    searchViewModel,
+                    localHistoryViewModel
+                )
+            }
+
+            composable(Screen.Statistics.route) {  }
+            composable(Screen.Settings.route) {
+                SettingsScreen(
+                    navController,
+                    authViewModel,
+                    userViewModel,
+                    onLogout = { navController.navigate("login") }
+                )
+            }
+
+            /* SUB SCREENS */
+            composable(Screen.ProfileBeneficiary.route + "/{profileId}") {
+                ProfileBeneficiaryScreen(
+                    navController,
                     beneficiaryViewModel = beneficiaryViewModel
                 )
             }
 
-            composable(Screen.Register.route) {  }
-            composable(Screen.People.route) {  }
-            composable(Screen.Register.route) {
-                SessionsListScreen(
-                    sessionsViewModel = sessionsViewModel,
-                    onBackClick = { navController.navigate("home") },
+            composable(Screen.RegisterBeneficiary.route) {
+                RegisterBeneficiaryScreen(
+                    navController,
+                    beneficiaryViewModel
                 )
             }
-            composable(Screen.Statistics.route) {  }
-            composable(Screen.Settings.route) {
-                SettingsScreen(
-                    authViewModel = authViewModel,
-                    onLogout = { navController.navigate("login") }
+
+            composable(Screen.RegisterVolunteer.route) {
+                RegisterVolunteerScreen(
+                    navController,
+                    userViewModel
                 )
             }
         }

@@ -27,7 +27,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.grupo1.lojasocial.ui.components.utils.sessions.SessionBox
 import androidx.navigation.NavController
+import com.grupo1.lojasocial.navigation.Screen
 import com.grupo1.lojasocial.ui.components.utils.search.RecentProfileBar
+import com.grupo1.lojasocial.viewmodel.SessionsViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
 import com.grupo1.lojasocial.viewmodel.VisitsViewModel
 
@@ -35,7 +37,8 @@ import com.grupo1.lojasocial.viewmodel.VisitsViewModel
 fun HomeScreen(
     navController: NavController,
     userViewModel: UserViewModel,
-    visitsViewModel: VisitsViewModel
+    visitsViewModel: VisitsViewModel,
+    sessionsViewModel: SessionsViewModel
 ) {
     val currentUser by userViewModel.currentUser.collectAsState()
 
@@ -51,6 +54,12 @@ fun HomeScreen(
         "Dianne Russell" to "01:08 pm",
         "Dianne Russell" to "01:08 pm"
     )
+
+    val openSessions = sessionsViewModel.openSessions.collectAsState().value
+    val countOpenSession = openSessions?.size ?: 0
+
+    val closeSessions = sessionsViewModel.closeSessions.collectAsState().value
+    val countCloseSession = closeSessions?.size ?: 0
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -75,25 +84,30 @@ fun HomeScreen(
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
-            // TO DO: Make Check-In Work
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 SessionBox(
-                    count = 2,
-                    label = "Sessões Abertas",
+                    count = countCloseSession,
+                    label = "Sessões Encerradas",
                     icon = Icons.Default.ArrowBack,
                     color = Color(0x1FA3A3A3),
-                    iconColor = Color.Red
+                    iconColor = Color.Red,
+                    onClick = {
+                        navController.navigate(Screen.ClosedSessionsList.route)
+                    }
                 )
                 SessionBox(
-                    count = 27,
-                    label = "Sessões Terminadas",
+                    count = countOpenSession,
+                    label = "Sessões Abertas",
                     icon = Icons.Default.ArrowForward,
                     color = Color(0x1FA3A3A3),
-                    iconColor = Color.Green
+                    iconColor = Color.Green,
+                    onClick = {
+                        navController.navigate(Screen.OpenSessionsList.route)
+                    }
                 )
             }
 

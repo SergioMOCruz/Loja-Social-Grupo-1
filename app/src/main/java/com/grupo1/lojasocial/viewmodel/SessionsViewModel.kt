@@ -12,14 +12,21 @@ import kotlinx.coroutines.launch
 class SessionsViewModel(
     private val sessionsControler: SessionsRepository = SessionsRepository()
 ) : ViewModel() {
-    private val _sessions = MutableStateFlow<List<Session>?>(emptyList())
-    val sessions = _sessions.asStateFlow()
+    private val _openSessions = MutableStateFlow<List<Session>?>(emptyList())
+    val openSessions = _openSessions.asStateFlow()
 
-    fun getSessions() {
+    private val _closeSessions = MutableStateFlow<List<Session>?>(emptyList())
+    val closeSessions = _closeSessions.asStateFlow()
+
+    fun getOpenSessions() {
         viewModelScope.launch {
-            val sessions = sessionsControler.getSessions()
-            _sessions.value = sessions
-            Log.d("SessionsViewModel", "Sessions: $sessions")
+            _openSessions.value = sessionsControler.getOpenSessions()
+        }
+    }
+
+    fun getCloseSessions() {
+        viewModelScope.launch {
+            _closeSessions.value = sessionsControler.getCloseSessions()
         }
     }
 

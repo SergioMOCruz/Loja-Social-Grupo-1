@@ -18,6 +18,7 @@ import com.grupo1.lojasocial.ui.screens.profile.ProfileBeneficiaryScreen
 import com.grupo1.lojasocial.ui.screens.register.RegisterBeneficiaryScreen
 import com.grupo1.lojasocial.ui.screens.register.RegisterVolunteerScreen
 import com.grupo1.lojasocial.ui.screens.sessions.RegisterSessionScreen
+import com.grupo1.lojasocial.ui.screens.sessions.SessionsListScreen
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
 import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
 import com.grupo1.lojasocial.viewmodel.LocalHistoryViewModel
@@ -93,7 +94,8 @@ fun AppNavHost(
                 HomeScreen(
                     navController,
                     userViewModel,
-                    visitsViewModel
+                    visitsViewModel,
+                    sessionsViewModel
                 )
             }
 
@@ -151,6 +153,22 @@ fun AppNavHost(
                     sessionsViewModel,
                     beneficiaryViewModel,
                     visitsViewModel
+                )
+            }
+
+            composable(Screen.OpenSessionsList.route) {
+                SessionsListScreen(
+                    sessionsViewModel,
+                    navController,
+                    type = "open"
+                )
+            }
+
+            composable(Screen.ClosedSessionsList.route) {
+                SessionsListScreen(
+                    sessionsViewModel,
+                    navController,
+                    type = "closed"
                 )
             }
         }

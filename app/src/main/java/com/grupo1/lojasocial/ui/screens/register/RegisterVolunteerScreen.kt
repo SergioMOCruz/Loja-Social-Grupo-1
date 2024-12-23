@@ -10,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.grupo1.lojasocial.ui.components.utils.inputs.GenericInputField
 import com.grupo1.lojasocial.ui.screens.header.SubHeaderScreen
 import com.grupo1.lojasocial.utils.isValidEmail
 import com.grupo1.lojasocial.viewmodel.UserViewModel
@@ -46,44 +46,25 @@ fun RegisterVolunteerScreen(
             navController
         )
 
-        OutlinedTextField(
+        GenericInputField(
+            label = "Nome Próprio",
             value = name,
-            onValueChange = { name = it },
-            label = { Text("Nome Próprio") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            singleLine = true
+            onValueChange = { name = it }
         )
-
-        OutlinedTextField(
+        GenericInputField(
+            label = "Apelido",
             value = surname,
-            onValueChange = { surname = it },
-            label = { Text("Apelido") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            singleLine = true
+            onValueChange = { surname = it }
         )
-
-        OutlinedTextField(
+        GenericInputField(
+            label = "E-mail",
             value = email,
-            onValueChange = { email = it },
-            label = { Text("E-mail") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            singleLine = true
+            onValueChange = { email = it }
         )
-
-        OutlinedTextField(
+        GenericInputField(
+            label = "Nº Telemóvel",
             value = phoneNumber,
-            onValueChange = { phoneNumber = it },
-            label = { Text("Nº Telemóvel") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            singleLine = true
+            onValueChange = { phoneNumber = it }
         )
 
         Button(

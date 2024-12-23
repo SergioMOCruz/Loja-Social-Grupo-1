@@ -64,6 +64,7 @@ fun RegisterSessionScreen(
     ) {
         SubHeaderScreen(
             title = "Registar Sessão",
+            subtitle = "",
             navController = navController
         )
         Row(

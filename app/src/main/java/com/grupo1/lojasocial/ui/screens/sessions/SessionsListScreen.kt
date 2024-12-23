@@ -54,6 +54,7 @@ fun SessionsListScreen(
     ) {
         SubHeaderScreen(
             title = if (type == "open") "Sessões Abertas" else "Sessões Encerradas",
+            subtitle = "",
             navController = navController
         )
 

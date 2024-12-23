@@ -42,7 +42,7 @@ fun RegisterVolunteerScreen(
             .verticalScroll(rememberScrollState())
     ) {
         SubHeaderScreen(
-            title = "Registar Novo Beneficiário",
+            title = "Registar Novo Voluntário",
             navController
         )
 

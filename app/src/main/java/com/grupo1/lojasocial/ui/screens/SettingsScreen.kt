@@ -91,7 +91,9 @@ fun SettingsScreen(
                 OptionCard(
                     icon = Icons.Filled.DateRange,
                     text = "Marcar Disponibilidade",
-                    onClick = { /* Ação */ }
+                    onClick = {
+                        navController.navigate(Screen.RegisterAvailability.route)
+                    }
                 )
                 OptionCard(
                     icon = Icons.Filled.Face,

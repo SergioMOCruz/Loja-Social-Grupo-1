@@ -18,12 +18,14 @@ import com.grupo1.lojasocial.ui.screens.profile.ProfileBeneficiaryScreen
 import com.grupo1.lojasocial.ui.screens.profile.ProfileVolunteerScreen
 import com.grupo1.lojasocial.ui.screens.register.RegisterBeneficiaryScreen
 import com.grupo1.lojasocial.ui.screens.register.RegisterVolunteerScreen
+import com.grupo1.lojasocial.ui.screens.schedule.RegisterAvailabilityScreen
 import com.grupo1.lojasocial.ui.screens.sessions.RegisterSessionScreen
 import com.grupo1.lojasocial.ui.screens.sessions.SessionsListScreen
 import com.grupo1.lojasocial.ui.screens.volunteers.ManageVolunteersScreen
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
 import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
 import com.grupo1.lojasocial.viewmodel.LocalHistoryViewModel
+import com.grupo1.lojasocial.viewmodel.ScheduleViewModel
 import com.grupo1.lojasocial.viewmodel.SearchViewModel
 import com.grupo1.lojasocial.viewmodel.SessionsViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
@@ -38,7 +40,8 @@ fun AppNavHost(
     searchViewModel: SearchViewModel,
     localHistoryViewModel: LocalHistoryViewModel,
     beneficiaryViewModel: BeneficiaryViewModel,
-    sessionsViewModel: SessionsViewModel
+    sessionsViewModel: SessionsViewModel,
+    scheduleViewModel: ScheduleViewModel
 ) {
     val navController = rememberNavController()
 
@@ -185,6 +188,13 @@ fun AppNavHost(
                     sessionsViewModel,
                     navController,
                     type = "closed"
+                )
+            }
+            composable(Screen.RegisterAvailability.route) {
+                RegisterAvailabilityScreen(
+                    navController,
+                    userViewModel,
+                    scheduleViewModel
                 )
             }
         }

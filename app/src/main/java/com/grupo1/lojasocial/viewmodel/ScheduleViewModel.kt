@@ -12,16 +12,24 @@ import kotlinx.coroutines.launch
 class ScheduleViewModel : ViewModel() {
     private val scheduleRepository = ScheduleRepository()
 
-    // LiveData or StateFlow to hold the schedules for the UI
     private val _schedules = MutableStateFlow<List<Schedule>>(emptyList())
     val schedules: StateFlow<List<Schedule>> = _schedules
 
-    // Function to load schedules
     fun loadSchedulesForUser(currentUserId: String) {
         viewModelScope.launch {
             val fetchedSchedules = scheduleRepository.getSchedulesForUser(currentUserId)
             _schedules.value=fetchedSchedules
 
+        }
+    }
+    fun updateCheckedSchedules(currentUserId: String, updatedSchedules: List<Schedule>) {
+        viewModelScope.launch {
+            try {
+                scheduleRepository.updateSchedules(currentUserId, updatedSchedules)
+                loadSchedulesForUser(currentUserId) // Refresh schedules after update
+            } catch (e: Exception) {
+                println("Failed to update schedules: ${e.message}")
+            }
         }
     }
 }

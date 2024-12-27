@@ -35,6 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.grupo1.lojasocial.domain.model.Schedule
+import com.grupo1.lojasocial.domain.model.User
+import com.grupo1.lojasocial.ui.screens.header.SubHeaderScreen
 import com.grupo1.lojasocial.viewmodel.ScheduleViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
 
@@ -45,7 +47,7 @@ fun RegisterAvailabilityScreen(
     scheduleViewModel: ScheduleViewModel
 
     ) {
-    // Fetch schedules (simulated here with hardcoded data)
+
 
 
     userViewModel.getCurrentUser()
@@ -53,42 +55,55 @@ fun RegisterAvailabilityScreen(
     val schedules by scheduleViewModel.schedules.collectAsState()
     var selectedSchedules by remember { mutableStateOf(setOf<String>()) }
 
-    // Simulate loading data (use a suspend function to load in real scenarios)
+
     LaunchedEffect(key1 = currentUser!!.id) {
         currentUser?.id?.let { scheduleViewModel.loadSchedulesForUser(it) }
     }
+    Column(modifier = Modifier.fillMaxSize()) {
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
+        SubHeaderScreen(
+            title = "Registar Disponibilidade",
+            subtitle = "",
+            navController = navController
+        )
+
+
+        Box(modifier = Modifier
+            .weight(1f)
             .padding(16.dp)
-    ) {
-
-
-        // Display schedules in a LazyColumn
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(schedules) { schedule ->
-                ScheduleItem(
-                    schedule = schedule,
-                    currentUserId = currentUser!!.id,
-                    onUserToggle = { isChecked ->
-                        selectedSchedules = if (isChecked) {
-                            selectedSchedules + schedule.id
-                        } else {
-                            selectedSchedules - schedule.id
+        ) {
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(schedules) { schedule ->
+                    ScheduleItem(
+                        schedule = schedule,
+                        currentUserId = currentUser!!.id,
+                        onUserToggle = { isChecked ->
+                            selectedSchedules = if (isChecked) {
+                                selectedSchedules + schedule.id
+                            } else {
+                                selectedSchedules - schedule.id
+                            }
                         }
-                    })
+                    )
+                }
             }
         }
         Button(
             onClick = {
-                // Handle submission
+                val updatedSchedules = schedules.map { schedule ->
+                    val isChecked = selectedSchedules.contains(schedule.id)
+                    if (isChecked) {
+                        schedule.copy(users = schedule.users + User(id = currentUser!!.id))
+                    } else {
+                        schedule.copy(users = schedule.users.filter { it.id != currentUser!!.id })
+                    }
+                }
+                scheduleViewModel.updateCheckedSchedules(currentUser!!.id, updatedSchedules)
             },
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(16.dp)
                 .fillMaxWidth()
-                .height(48.dp),
+                .height(85.dp)
+                .padding(16.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Black
             ),
@@ -102,7 +117,6 @@ fun RegisterAvailabilityScreen(
             )
         }
     }
-
 }
 
 @Composable
@@ -162,7 +176,7 @@ fun CustomCheckbox(
         contentAlignment = Alignment.Center
     ) {
         if (checked) {
-            // Optional: Inner box for additional visual confirmation
+
             Box(
                 modifier = Modifier
                     .size(16.dp)

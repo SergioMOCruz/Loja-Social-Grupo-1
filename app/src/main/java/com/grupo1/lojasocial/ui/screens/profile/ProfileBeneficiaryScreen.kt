@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.grupo1.lojasocial.domain.enums.AlertLevel
+import com.grupo1.lojasocial.navigation.Screen
 import com.grupo1.lojasocial.ui.components.utils.profile.ProfileLabel
 import com.grupo1.lojasocial.ui.components.utils.profile.WarningLevel
 import com.grupo1.lojasocial.ui.screens.header.SubHeaderScreen
@@ -214,7 +215,7 @@ fun ProfileBeneficiaryScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 8.dp,bottom = 16.dp),
+                .padding(start = 8.dp, bottom = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedTextField(
@@ -309,7 +310,7 @@ fun ProfileBeneficiaryScreen(
         Spacer(modifier = Modifier.height(4.dp))
 
         Button(
-            onClick = { /* Handle requests click */ },
+            onClick = { navController.navigate(Screen.BeneficiaryRequests.route + "/${profileId}/${beneficiary.name + " " + beneficiary.surname}") },
             shape = RoundedCornerShape(4.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
             modifier = Modifier

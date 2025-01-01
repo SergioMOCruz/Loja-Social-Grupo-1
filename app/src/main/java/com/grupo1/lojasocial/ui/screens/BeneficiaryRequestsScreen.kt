@@ -3,14 +3,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.grupo1.lojasocial.ui.components.utils.requests.RequestItem
 import com.grupo1.lojasocial.ui.screens.header.SubHeaderScreen
 import com.grupo1.lojasocial.viewmodel.RequestsViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun BeneficiaryRequestsScreen(
@@ -59,15 +69,36 @@ fun BeneficiaryRequestsScreen(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp)
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray, contentColor = Color.White)
         ) {
-            requests.forEach() { (request, data) ->
-                item {
-                    RequestItem(
-                        request = request,
-                    )
+            Text(text = "Novo Pedido", color = Color.White)
+        }
+
+        val snackbarHostState = remember { SnackbarHostState() }
+        val coroutineScope = rememberCoroutineScope()
+
+        Scaffold(
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState)
+            }
+        ) { padding ->
+            LazyColumn(contentPadding = padding) {
+                requests.forEach { request ->
+                    item {
+                        RequestItem(request = request) {
+                            requestsViewModel.deleteRequest(it)
+                            coroutineScope.launch {
+                                snackbarHostState.showSnackbar("Pedido apagado com sucesso!")
+                            }
+                            requestsViewModel.getRequests(profileId!!)
+                        }
+                    }
                 }
             }
         }

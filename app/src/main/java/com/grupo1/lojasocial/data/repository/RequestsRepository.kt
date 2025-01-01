@@ -1,5 +1,6 @@
 package com.grupo1.lojasocial.data.repository
 
+import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.grupo1.lojasocial.domain.model.Product
@@ -22,7 +23,7 @@ class RequestsRepository {
         }
     }
 
-    suspend fun getRequestsFromBeneficiary(profileId: String): Map<Requests, Map<String, Any>> {
+    suspend fun getRequestsFromBeneficiary(profileId: String): List<Requests> {
         return try {
             val documentSnapshots = requestsCollection
                 .whereEqualTo("id_beneficiary", profileId)
@@ -31,29 +32,44 @@ class RequestsRepository {
                 .documents
 
             if (documentSnapshots.isNotEmpty()) {
-                documentSnapshots.associate { document ->
-                    val data = document.data ?: emptyMap()
-                    val idBeneficiary = data["id_beneficiary"] as? String ?: ""
-                    val products = data["products"] as? List<Product> ?: emptyList()
-                    val date = data["date"] as? Timestamp
+                documentSnapshots.mapNotNull { document ->
+                    val data = document.data ?: return@mapNotNull null
+                    val idBeneficiary = data["id_beneficiary"] as? String ?: return@mapNotNull null
+                    val date = data["date"] as? Timestamp ?: return@mapNotNull null
 
-                    val request = Requests(
+                    val productsList = data["products"] as? List<*>
+                    val products = productsList?.mapNotNull { productMap ->
+                        if (productMap is Map<*, *>) {
+                            val description = productMap["description"] as? String
+                            val quantity = productMap["quantity"] as? Long
+                            if (description != null && quantity != null) {
+                                Product(description, quantity.toInt())
+                            } else {
+                                Log.d("RequestsRepository", "Invalid product entry: $productMap")
+                                null
+                            }
+                        } else {
+                            Log.d("RequestsRepository", "Unexpected productMap type: $productMap")
+                            null
+                        }
+                    } ?: emptyList()
+
+                    Requests(
                         id = document.id,
                         id_beneficiary = idBeneficiary,
-                        products = products,
-                        date = date
+                        date = date,
+                        products = products
                     )
-
-                    request to data
                 }
             } else {
-                emptyMap()
+                emptyList()
             }
         } catch (e: Exception) {
-            println("Error getting request: ${e.message}")
-            emptyMap()
+            Log.e("RequestsRepository", "Error getting requests: ${e.message}")
+            emptyList()
         }
     }
+
 
     suspend fun deleteRequest(requestId: String): Boolean {
         return try {

@@ -1,5 +1,6 @@
 package com.grupo1.lojasocial.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
@@ -14,8 +15,8 @@ class RequestsViewModel(
     private val requestsRepository: RequestsRepository = RequestsRepository()
 ) : ViewModel() {
 
-    private val _request = MutableStateFlow(emptyMap<Requests, Map<String, Any>>())
-    val request : StateFlow<Map<Requests, Map<String, Any>>> = _request
+    private val _request = MutableStateFlow(emptyList<Requests>())
+    val request : StateFlow<List<Requests>> = _request
 
     fun registerRequest(
         id_beneficiary: String,
@@ -27,20 +28,23 @@ class RequestsViewModel(
                 "products" to products,
                 "date" to Timestamp.now(),
             )
-
             requestsRepository.registerRequest(newRequest)
         }
     }
 
-    fun getRequests(requestId: String) {
+    fun getRequests(profileId: String) {
         viewModelScope.launch {
-            _request.value = requestsRepository.getRequestsFromBeneficiary(requestId)
+            val fetchedRequests = requestsRepository.getRequestsFromBeneficiary(profileId)
+            _request.value = fetchedRequests
+            Log.d("RequestsViewModel", "Fetched Requests: $fetchedRequests")
         }
     }
 
-    private fun deleteRequest(requestId : String) {
+    fun deleteRequest(requestId: String): Boolean {
+        var isDeleted = false
         viewModelScope.launch {
-            requestsRepository.deleteRequest( requestId )
+            isDeleted = requestsRepository.deleteRequest(requestId)
         }
+        return isDeleted
     }
 }

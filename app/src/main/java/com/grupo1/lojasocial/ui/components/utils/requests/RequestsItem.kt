@@ -15,7 +15,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -27,12 +26,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.grupo1.lojasocial.domain.model.Requests
+import com.grupo1.lojasocial.utils.formatTimestampToDate
 
 @Composable
-fun RequestItem(request: Requests) {
+fun RequestItem(request: Requests, deleteRequest: (String) -> Unit) {
     var isExpanded by remember { mutableStateOf(false) }
 
     Column(
@@ -49,7 +50,7 @@ fun RequestItem(request: Requests) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "${request.date}", fontSize = 16.sp)
+            Text(text = formatTimestampToDate(request.date), fontSize = 16.sp)
             Icon(
                 imageVector = if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                 contentDescription = "Expand/Collapse"
@@ -62,21 +63,28 @@ fun RequestItem(request: Requests) {
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Text(text = "Adicionado a ${request.date}", fontSize = 14.sp)
+                Text(text = "Adicionado a ${formatTimestampToDate(request.date)}", fontSize = 14.sp)
                 Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     request.products.forEach { product ->
-                        Text(text = product.quantity.toString(), fontSize = 14.sp)
-                        Text(text = product.description, fontSize = 14.sp)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        ) {
+                            Text(text = product.quantity.toString(), fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+                            Text(text = product.description, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+                        }
+
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
-                        onClick = { /* Delete action */ },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red)
+                        onClick = { deleteRequest(request.id) },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray, contentColor = Color.White)
                     ) {
                         Text(text = "Apagar Pedido")
                     }

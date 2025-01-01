@@ -12,5 +12,5 @@ data class Requests(
 
 data class Product(
     val description: String = "",
-    val quantity: Int = 0,
+    val quantity: Int = 0
 )

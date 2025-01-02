@@ -13,3 +13,13 @@ fun formatTimestampToDateAndHour(timestamp: Timestamp?): String {
         "Unknown Date"
     }
 }
+
+fun formatTimestampToDate(timestamp: Timestamp?): String {
+    return if (timestamp != null) {
+        val date = timestamp.toDate()
+        val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+        dateFormat.format(date)
+    } else {
+        "Unknown Date"
+    }
+}

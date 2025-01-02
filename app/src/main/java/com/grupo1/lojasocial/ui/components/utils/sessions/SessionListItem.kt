@@ -1,5 +1,6 @@
 package com.grupo1.lojasocial.ui.components.utils.sessions
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +28,8 @@ import com.grupo1.lojasocial.utils.formatTimestampToDateAndHour
 fun SessionItem(
     session: Session,
     type: String,
-    onSessionClose: () -> Unit
+    onSessionClose: () -> Unit,
+    onSessionViewRequests: () -> Unit
 ) {
 
     Card(
@@ -47,7 +49,8 @@ fun SessionItem(
         ) {
             Text(
                 text = session.beneficiaryName,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.clickable { onSessionViewRequests() }
             )
 
             Row (

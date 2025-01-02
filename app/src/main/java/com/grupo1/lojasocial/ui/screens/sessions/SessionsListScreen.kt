@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.grupo1.lojasocial.navigation.Screen
 import com.grupo1.lojasocial.ui.components.utils.sessions.SessionItem
 import com.grupo1.lojasocial.ui.screens.header.SubHeaderScreen
 import com.grupo1.lojasocial.viewmodel.SessionsViewModel
@@ -78,7 +79,14 @@ fun SessionsListScreen(
                         openSessions.forEach { session ->
                             item {
                                 Log.d("OpenSessions", session.toString())
-                                SessionItem(session = session, type = "open", onSessionClose = { closeSession(session.id) })
+                                SessionItem(
+                                    session = session,
+                                    type = "open",
+                                    onSessionClose = { closeSession(session.id) },
+                                    onSessionViewRequests = {
+                                        navController.navigate(Screen.BeneficiaryRequests.route  + "/${session.id_beneficiary}/${session.beneficiaryName}")
+                                    }
+                                )
                             }
                         }
                     }
@@ -98,7 +106,7 @@ fun SessionsListScreen(
                         closeSessions.forEach { session ->
                             item {
                                 Log.d("ClosedSessions", session.toString())
-                                SessionItem(session = session, type = "close", onSessionClose = {})
+                                SessionItem(session = session, type = "close", onSessionClose = {}, onSessionViewRequests = {})
                             }
                         }
                     }

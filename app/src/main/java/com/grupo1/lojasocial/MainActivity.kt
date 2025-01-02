@@ -14,6 +14,7 @@ import com.grupo1.lojasocial.ui.theme.primaryBackground
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
 import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
 import com.grupo1.lojasocial.viewmodel.LocalHistoryViewModel
+import com.grupo1.lojasocial.viewmodel.RequestsViewModel
 import com.grupo1.lojasocial.viewmodel.SearchViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
 import com.grupo1.lojasocial.viewmodel.VisitsViewModel
@@ -29,6 +30,7 @@ class MainActivity : ComponentActivity() {
     private val searchViewModel: SearchViewModel by viewModels()
     private val beneficiaryViewModel: BeneficiaryViewModel by viewModels()
     private val sessionsViewModel: SessionsViewModel by viewModels()
+    private val requestViewModel: RequestsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +48,8 @@ class MainActivity : ComponentActivity() {
                         searchViewModel = searchViewModel,
                         localHistoryViewModel = ViewModelProvider(this).get(LocalHistoryViewModel::class.java),
                         beneficiaryViewModel = beneficiaryViewModel,
-                        sessionsViewModel = sessionsViewModel
+                        sessionsViewModel = sessionsViewModel,
+                        requestsViewModel = requestViewModel,
                     )
                 }
             }

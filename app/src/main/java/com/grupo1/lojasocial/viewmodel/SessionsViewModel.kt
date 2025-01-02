@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import com.google.firebase.Timestamp
+import com.grupo1.lojasocial.domain.model.Beneficiary
+import kotlinx.coroutines.flow.StateFlow
 
 
 class SessionsViewModel(
@@ -17,10 +19,10 @@ class SessionsViewModel(
     private val beneficiaryRepository: BeneficiaryRepository = BeneficiaryRepository()
 ) : ViewModel() {
     private var _openSessions = MutableStateFlow<List<Session>?>(emptyList())
-    val openSessions = _openSessions.asStateFlow()
+    val openSessions: StateFlow<List<Session>?> = _openSessions
 
     private val _closeSessions = MutableStateFlow<List<Session>?>(emptyList())
-    val closeSessions = _closeSessions.asStateFlow()
+    val closeSessions: StateFlow<List<Session>?> = _closeSessions
 
     fun getOpenSessions() {
         viewModelScope.launch {

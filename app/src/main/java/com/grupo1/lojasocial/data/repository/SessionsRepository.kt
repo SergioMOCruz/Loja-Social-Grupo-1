@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.grupo1.lojasocial.domain.model.Session
 import kotlinx.coroutines.tasks.await
+import java.util.Calendar
 
 class SessionsRepository() {
     private val db = FirebaseFirestore.getInstance()
@@ -30,9 +31,24 @@ class SessionsRepository() {
     }
 
     suspend fun getCloseSessions(): List<Session> {
+        val calendar = Calendar.getInstance()
+
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        val startOfDay = Timestamp(calendar.time)
+
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+        calendar.set(Calendar.MILLISECOND, 999)
+        val endOfDay = Timestamp(calendar.time)
+
         return try {
             val documents = sessionsCollection
-                .whereLessThan("exitTime", Timestamp(System.currentTimeMillis() / 1000, 0))
+                .whereGreaterThanOrEqualTo("exitTime", startOfDay)
+                .whereLessThanOrEqualTo("exitTime", endOfDay)
                 .orderBy("exitTime", Query.Direction.DESCENDING)
                 .get()
                 .await()

@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.grupo1.lojasocial.ui.components.BottomNavigationBar
+import com.grupo1.lojasocial.ui.screens.BeneficiaryRequestsScreen
 import com.grupo1.lojasocial.ui.screens.HomeScreen
 import com.grupo1.lojasocial.ui.screens.LoginScreen
 import com.grupo1.lojasocial.ui.screens.PeopleScreen
@@ -28,6 +29,7 @@ import com.grupo1.lojasocial.viewmodel.AuthViewModel
 import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
 import com.grupo1.lojasocial.viewmodel.LocalHistoryViewModel
 import com.grupo1.lojasocial.viewmodel.ScheduleViewModel
+import com.grupo1.lojasocial.viewmodel.RequestsViewModel
 import com.grupo1.lojasocial.viewmodel.SearchViewModel
 import com.grupo1.lojasocial.viewmodel.SessionsViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
@@ -44,6 +46,7 @@ fun AppNavHost(
     beneficiaryViewModel: BeneficiaryViewModel,
     sessionsViewModel: SessionsViewModel,
     scheduleViewModel: ScheduleViewModel
+    requestsViewModel: RequestsViewModel
 ) {
     val navController = rememberNavController()
 
@@ -192,6 +195,7 @@ fun AppNavHost(
                     type = "closed"
                 )
             }
+            
             composable(Screen.RegisterAvailability.route) {
                 RegisterAvailabilityScreen(
                     navController,
@@ -211,6 +215,11 @@ fun AppNavHost(
                     navController,
                     scheduleViewModel,
                     userViewModel
+
+            composable(Screen.BeneficiaryRequests.route + "/{profileId}/{beneficiaryName}") {
+                BeneficiaryRequestsScreen(
+                    navController,
+                    requestsViewModel,
                 )
             }
         }

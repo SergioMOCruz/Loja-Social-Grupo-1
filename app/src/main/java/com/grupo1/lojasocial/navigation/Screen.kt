@@ -31,4 +31,5 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
     object RegisterSession : Screen("register_session", "Registar Sessão", Icons.Default.Add)
     object OpenSessionsList : Screen("open_sessions_list", "Sessões Abertas", Icons.Default.Menu)
     object ClosedSessionsList : Screen("closed_sessions_list", "Sessões Encerradas", Icons.Default.Menu)
+    object BeneficiaryRequests : Screen("beneficiary_requests", "Pedidos", Icons.Default.Menu)
 }

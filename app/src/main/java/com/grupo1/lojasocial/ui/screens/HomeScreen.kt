@@ -44,16 +44,11 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) {
         visitsViewModel.getLast5Visits()
+        sessionsViewModel.getOpenSessions()
+        sessionsViewModel.getCloseSessions()
     }
 
     val recentVisits = visitsViewModel.recentVisits.value
-
-    val recentCheckIns = listOf(
-        "Esther Howard" to "06:32 pm",
-        "Courtney Henry" to "02:10 pm",
-        "Dianne Russell" to "01:08 pm",
-        "Dianne Russell" to "01:08 pm"
-    )
 
     val openSessions = sessionsViewModel.openSessions.collectAsState().value
     val countOpenSession = openSessions?.size ?: 0
@@ -132,11 +127,6 @@ fun HomeScreen(
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
-
-            // TO DO: Make Check-In Work
-            recentCheckIns.forEach { (name, time) ->
-                //RecentProfileBar(name = name, time = time)
-            }
 
             Spacer(modifier = Modifier.height(16.dp))
         }

@@ -45,7 +45,7 @@ fun AppNavHost(
     localHistoryViewModel: LocalHistoryViewModel,
     beneficiaryViewModel: BeneficiaryViewModel,
     sessionsViewModel: SessionsViewModel,
-    scheduleViewModel: ScheduleViewModel
+    scheduleViewModel: ScheduleViewModel,
     requestsViewModel: RequestsViewModel
 ) {
     val navController = rememberNavController()
@@ -215,7 +215,8 @@ fun AppNavHost(
                     navController,
                     scheduleViewModel,
                     userViewModel
-
+                )
+            }
             composable(Screen.BeneficiaryRequests.route + "/{profileId}/{beneficiaryName}") {
                 BeneficiaryRequestsScreen(
                     navController,

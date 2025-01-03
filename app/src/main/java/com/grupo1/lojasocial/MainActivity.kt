@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                         localHistoryViewModel = ViewModelProvider(this).get(LocalHistoryViewModel::class.java),
                         beneficiaryViewModel = beneficiaryViewModel,
                         sessionsViewModel = sessionsViewModel,
-                        scheduleViewModel = scheduleViewModel
+                        scheduleViewModel = scheduleViewModel,
                         requestsViewModel = requestViewModel,
                     )
                 }

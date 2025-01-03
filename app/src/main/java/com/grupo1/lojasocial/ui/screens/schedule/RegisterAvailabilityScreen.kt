@@ -39,66 +39,90 @@ import com.grupo1.lojasocial.domain.model.User
 import com.grupo1.lojasocial.ui.screens.header.SubHeaderScreen
 import com.grupo1.lojasocial.viewmodel.ScheduleViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
-
 @Composable
 fun RegisterAvailabilityScreen(
     navController: NavController,
     userViewModel: UserViewModel,
     scheduleViewModel: ScheduleViewModel
-
-    ) {
-
-
-
+) {
     userViewModel.getCurrentUser()
     val currentUser by userViewModel.currentUser.collectAsState()
     val schedules by scheduleViewModel.schedules.collectAsState()
-    var selectedSchedules by remember { mutableStateOf(setOf<String>()) }
 
+    // Track selected schedules based on initial state
+    var selectedSchedules by remember(schedules) {
+        mutableStateOf(
+            schedules.filter { schedule ->
+                schedule.users.any { it.id == currentUser?.id }
+            }.map { it.id }.toSet()
+        )
+    }
 
-    LaunchedEffect(key1 = currentUser!!.id) {
+    // Load schedules
+    LaunchedEffect(key1 = currentUser?.id) {
         currentUser?.id?.let { scheduleViewModel.loadSchedulesForUser(it) }
     }
-    Column(modifier = Modifier.fillMaxSize()) {
 
+    // Screen Layout
+    Column(modifier = Modifier.fillMaxSize()) {
         SubHeaderScreen(
             title = "Registar Disponibilidade",
             subtitle = "",
             navController = navController
         )
 
-
         Box(modifier = Modifier
             .weight(1f)
             .padding(16.dp)
         ) {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(schedules) { schedule ->
-                    ScheduleItem(
-                        schedule = schedule,
-                        currentUserId = currentUser!!.id,
-                        onUserToggle = { isChecked ->
-                            selectedSchedules = if (isChecked) {
-                                selectedSchedules + schedule.id
-                            } else {
-                                selectedSchedules - schedule.id
+            if (schedules.isEmpty()) {
+                // Exibe a mensagem quando não houver horários disponíveis
+                Text(
+                    text = "Sem horários disponíveis",
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Gray,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            } else {
+                // Exibe os horários quando houver dados
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(schedules) { schedule ->
+                        ScheduleItem(
+                            schedule = schedule,
+                            currentUserId = currentUser!!.id, // Pass the currentUserId
+                            isChecked = selectedSchedules.contains(schedule.id), // Check if schedule is selected
+                            onUserToggle = { isChecked -> // Toggle schedule selection
+                                selectedSchedules = if (isChecked) {
+                                    selectedSchedules + schedule.id
+                                } else {
+                                    selectedSchedules - schedule.id
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }
+
         Button(
             onClick = {
                 val updatedSchedules = schedules.map { schedule ->
                     val isChecked = selectedSchedules.contains(schedule.id)
-                    if (isChecked) {
-                        schedule.copy(users = schedule.users + User(id = currentUser!!.id))
+                    val updatedUsers = if (isChecked) {
+                        // Adiciona o ID do usuário se não estiver presente
+                        if (schedule.users.none { it.id == currentUser!!.id }) {
+                            schedule.users + User(id = currentUser!!.id)
+                        } else {
+                            schedule.users
+                        }
                     } else {
-                        schedule.copy(users = schedule.users.filter { it.id != currentUser!!.id })
+                        // Remove o ID do usuário se presente
+                        schedule.users.filter { it.id != currentUser!!.id }
                     }
+                    schedule.copy(users = updatedUsers)
                 }
-                scheduleViewModel.updateCheckedSchedules(currentUser!!.id, updatedSchedules)
+                scheduleViewModel.updateCheckedSchedules(currentUser!!.id, updatedSchedules, selectedSchedules)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -123,10 +147,9 @@ fun RegisterAvailabilityScreen(
 fun ScheduleItem(
     schedule: Schedule,
     currentUserId: String,
+    isChecked: Boolean,
     onUserToggle: (Boolean) -> Unit
 ) {
-    var isChecked by remember { mutableStateOf(schedule.users.any { it.id == currentUserId }) }
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -147,10 +170,7 @@ fun ScheduleItem(
 
         CustomCheckbox(
             checked = isChecked,
-            onCheckedChange = { newValue ->
-                isChecked = newValue
-                onUserToggle(newValue)
-            }
+            onCheckedChange = onUserToggle
         )
     }
 }
@@ -176,7 +196,6 @@ fun CustomCheckbox(
         contentAlignment = Alignment.Center
     ) {
         if (checked) {
-
             Box(
                 modifier = Modifier
                     .size(16.dp)

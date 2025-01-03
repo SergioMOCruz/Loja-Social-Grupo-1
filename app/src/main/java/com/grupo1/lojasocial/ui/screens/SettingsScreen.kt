@@ -18,8 +18,6 @@ import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DividerDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,7 +36,6 @@ import com.grupo1.lojasocial.navigation.Screen
 import com.grupo1.lojasocial.ui.components.utils.options.OptionCard
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
-
 
 @Composable
 fun SettingsScreen(
@@ -84,10 +81,12 @@ fun SettingsScreen(
                 }
             }
 
-            HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color.LightGray)
             Spacer(modifier = Modifier.height(20.dp))
 
-            Row {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 OptionCard(
                     icon = Icons.Filled.DateRange,
                     text = "Marcar Disponibilidade",
@@ -101,8 +100,37 @@ fun SettingsScreen(
                     onClick = { /* Ação */ }
                 )
             }
-            Row {
-                if(userRole == RoleLevel.ADMIN) {
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                OptionCard(
+                    icon = Icons.Filled.DateRange,
+                    text = "Ver Horários",
+                    onClick = {
+                        navController.navigate(Screen.Schedule.route)
+                    },
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Admin Options - Only visible if the user has the admin role
+            if (userRole == RoleLevel.ADMIN) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    OptionCard(
+                        icon = Icons.Filled.DateRange,
+                        text = "Inserir Horário",
+                        onClick = {
+                            navController.navigate(Screen.CreateSchedule.route)
+                        }
+                    )
                     OptionCard(
                         icon = Icons.Filled.Person,
                         text = "Gerir Voluntários",
@@ -114,6 +142,7 @@ fun SettingsScreen(
             }
         }
 
+        // Logout Button at the bottom
         Button(
             onClick = {
                 authViewModel.logout()

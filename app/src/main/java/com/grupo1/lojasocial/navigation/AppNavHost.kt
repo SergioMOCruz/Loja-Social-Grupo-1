@@ -18,7 +18,9 @@ import com.grupo1.lojasocial.ui.screens.profile.ProfileBeneficiaryScreen
 import com.grupo1.lojasocial.ui.screens.profile.ProfileVolunteerScreen
 import com.grupo1.lojasocial.ui.screens.register.RegisterBeneficiaryScreen
 import com.grupo1.lojasocial.ui.screens.register.RegisterVolunteerScreen
+import com.grupo1.lojasocial.ui.screens.schedule.CreateScheduleScreen
 import com.grupo1.lojasocial.ui.screens.schedule.RegisterAvailabilityScreen
+import com.grupo1.lojasocial.ui.screens.schedule.ScheduleScreen
 import com.grupo1.lojasocial.ui.screens.sessions.RegisterSessionScreen
 import com.grupo1.lojasocial.ui.screens.sessions.SessionsListScreen
 import com.grupo1.lojasocial.ui.screens.volunteers.ManageVolunteersScreen
@@ -195,6 +197,20 @@ fun AppNavHost(
                     navController,
                     userViewModel,
                     scheduleViewModel
+                )
+            }
+            composable(Screen.CreateSchedule.route) {
+                CreateScheduleScreen(
+                    navController,
+                    scheduleViewModel,
+
+                )
+            }
+            composable(Screen.Schedule.route) {
+                ScheduleScreen(
+                    navController,
+                    scheduleViewModel,
+                    userViewModel
                 )
             }
         }

@@ -25,4 +25,13 @@ fun formatDate(dateInMillis: Long): String {
     val date = Date(dateInMillis)
     val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return format.format(date)
+
+fun formatTimestampToDate(timestamp: Timestamp?): String {
+    return if (timestamp != null) {
+        val date = timestamp.toDate()
+        val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+        dateFormat.format(date)
+    } else {
+        "Unknown Date"
+    }
 }

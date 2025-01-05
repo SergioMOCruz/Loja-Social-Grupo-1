@@ -29,8 +29,8 @@ import com.grupo1.lojasocial.ui.screens.volunteers.ManageVolunteersScreen
 import com.grupo1.lojasocial.viewmodel.AuthViewModel
 import com.grupo1.lojasocial.viewmodel.BeneficiaryViewModel
 import com.grupo1.lojasocial.viewmodel.LocalHistoryViewModel
-import com.grupo1.lojasocial.viewmodel.ScheduleViewModel
 import com.grupo1.lojasocial.viewmodel.RequestsViewModel
+import com.grupo1.lojasocial.viewmodel.ScheduleViewModel
 import com.grupo1.lojasocial.viewmodel.SearchViewModel
 import com.grupo1.lojasocial.viewmodel.SessionsViewModel
 import com.grupo1.lojasocial.viewmodel.StatisticsViewModel
@@ -130,9 +130,7 @@ fun AppNavHost(
 
             composable(Screen.Statistics.route) {
                 StatisticsScreen(
-                    navController,
-                    statisticsViewModel,
-                    localHistoryViewModel
+                    statisticsViewModel
                 )
             }
             composable(Screen.Settings.route) {

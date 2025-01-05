@@ -15,6 +15,7 @@ import com.grupo1.lojasocial.ui.screens.HomeScreen
 import com.grupo1.lojasocial.ui.screens.LoginScreen
 import com.grupo1.lojasocial.ui.screens.PeopleScreen
 import com.grupo1.lojasocial.ui.screens.SettingsScreen
+import com.grupo1.lojasocial.ui.screens.StatisticsScreen
 import com.grupo1.lojasocial.ui.screens.profile.ProfileBeneficiaryScreen
 import com.grupo1.lojasocial.ui.screens.profile.ProfileVolunteerScreen
 import com.grupo1.lojasocial.ui.screens.register.RegisterBeneficiaryScreen
@@ -32,6 +33,7 @@ import com.grupo1.lojasocial.viewmodel.ScheduleViewModel
 import com.grupo1.lojasocial.viewmodel.RequestsViewModel
 import com.grupo1.lojasocial.viewmodel.SearchViewModel
 import com.grupo1.lojasocial.viewmodel.SessionsViewModel
+import com.grupo1.lojasocial.viewmodel.StatisticsViewModel
 import com.grupo1.lojasocial.viewmodel.UserViewModel
 import com.grupo1.lojasocial.viewmodel.VisitsViewModel
 
@@ -45,6 +47,7 @@ fun AppNavHost(
     localHistoryViewModel: LocalHistoryViewModel,
     beneficiaryViewModel: BeneficiaryViewModel,
     sessionsViewModel: SessionsViewModel,
+    statisticsViewModel: StatisticsViewModel,
     scheduleViewModel: ScheduleViewModel,
     requestsViewModel: RequestsViewModel
 ) {
@@ -125,7 +128,13 @@ fun AppNavHost(
                 )
             }
 
-            composable(Screen.Statistics.route) {  }
+            composable(Screen.Statistics.route) {
+                StatisticsScreen(
+                    navController,
+                    statisticsViewModel,
+                    localHistoryViewModel
+                )
+            }
             composable(Screen.Settings.route) {
                 SettingsScreen(
                     navController,

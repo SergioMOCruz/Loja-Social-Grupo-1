@@ -84,7 +84,7 @@ fun SessionsListScreen(
                                     type = "open",
                                     onSessionClose = { closeSession(session.id) },
                                     onSessionViewRequests = {
-                                        navController.navigate(Screen.BeneficiaryRequests.route  + "/${session.id_beneficiary}/${session.beneficiaryName}")
+                                        navController.navigate(Screen.BeneficiaryRequests.route  + "/${session.beneficiaryId}/${session.beneficiaryName}")
                                     }
                                 )
                             }

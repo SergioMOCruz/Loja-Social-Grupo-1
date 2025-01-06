@@ -5,7 +5,7 @@ import com.google.firebase.Timestamp
 
 data class Requests(
     @PrimaryKey val id: String = "",
-    val id_beneficiary: String = "",
+    val beneficiaryId: String = "",
     val date: Timestamp? = null,
     val products: List<Product> = emptyList(),
 )

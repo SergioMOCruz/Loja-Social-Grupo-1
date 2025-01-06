@@ -25,7 +25,7 @@ import com.grupo1.lojasocial.utils.formatTimestampToDateAndHour
 @Composable
 fun RecentProfileBar(
     navController: NavController,
-    visit: Visit,
+    visit: Visit
 ) {
     Row(
         modifier = Modifier

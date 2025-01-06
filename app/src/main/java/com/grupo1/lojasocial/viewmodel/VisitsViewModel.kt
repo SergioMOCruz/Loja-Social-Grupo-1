@@ -1,9 +1,5 @@
 package com.grupo1.lojasocial.viewmodel
 
-import android.adservices.adid.AdId
-import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.grupo1.lojasocial.data.repository.BeneficiaryRepository
@@ -18,8 +14,8 @@ class VisitsViewModel(
     private val beneficiaryRepository: BeneficiaryRepository = BeneficiaryRepository(),
 ) : ViewModel() {
 
-    private val _recentVisits = mutableStateOf<List<Visit>?>(null)
-    val recentVisits: State<List<Visit>?> get() = _recentVisits
+    private val _recentVisits = MutableStateFlow<List<Visit>?>(emptyList())
+    val recentVisits: StateFlow<List<Visit>?> = _recentVisits
 
     private val _visitsCount = MutableStateFlow(0)
     val visitsCount: StateFlow<Int> get() = _visitsCount
@@ -28,13 +24,7 @@ class VisitsViewModel(
         viewModelScope.launch {
             val visits = visitsRepository.getLast5Visits()
 
-            val visitsWithNames = visits?.map { visit ->
-                val beneficiary = beneficiaryRepository.getBeneficiaryByUid(visit.beneficiaryId)
-
-                visit.copy(name = (beneficiary?.name + " " + beneficiary?.surname))
-            } ?: emptyList()
-
-            _recentVisits.value = visitsWithNames
+            _recentVisits.value = visits
         }
     }
 
@@ -46,9 +36,9 @@ class VisitsViewModel(
         }
     }
 
-    fun regVisit(beneficiaryId: String) {
+    fun registerVisit(beneficiaryId: String) {
         viewModelScope.launch {
-            visitsRepository.regVisit(beneficiaryId, beneficiaryRepository)
+            visitsRepository.registerVisit(beneficiaryId, beneficiaryRepository)
         }
     }
 }

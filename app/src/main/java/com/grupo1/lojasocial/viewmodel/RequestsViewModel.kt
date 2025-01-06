@@ -19,12 +19,12 @@ class RequestsViewModel(
     val request : StateFlow<List<Requests>> = _request
 
     fun registerRequest(
-        id_beneficiary: String,
+        beneficiaryId: String,
         products: List<Product>,
     ) {
         viewModelScope.launch {
             val newRequest = mapOf(
-                "id_beneficiary" to id_beneficiary,
+                "beneficiaryId" to beneficiaryId,
                 "products" to products,
                 "date" to Timestamp.now(),
             )

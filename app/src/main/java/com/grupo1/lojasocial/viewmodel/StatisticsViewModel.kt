@@ -11,47 +11,47 @@ class StatisticsViewModel(
     private val statisticsRepository: StatisticsRepository = StatisticsRepository()
 ) : ViewModel() {
 
-    private val _beneficiariesCount = MutableStateFlow<Int?>(null)
+    private val _beneficiariesCount = MutableStateFlow<Int?>(0)
     val beneficiariesCount: StateFlow<Int?> = _beneficiariesCount
 
-    private val _visitsCount = MutableStateFlow<Int?>(null)
+    private val _visitsCount = MutableStateFlow<Int?>(0)
     val visitsCount: StateFlow<Int?> = _visitsCount
 
     private val _usersInRange = MutableStateFlow<List<String>>(emptyList())
     val usersInRange: StateFlow<List<String>> = _usersInRange
 
-    private val _beneficiariesByHouseHoldNumber = MutableStateFlow(emptyList<String>())
-    val beneficiariesByHouseHoldNumber: StateFlow<List<String>> get() = _beneficiariesByHouseHoldNumber
+    private val _nationalityNumbers = MutableStateFlow<List<String>>(emptyList())
+    val nationalityNumbers: StateFlow<List<String>> = _nationalityNumbers
 
 
-    fun fetchBeneficiariesCount() {
-        statisticsRepository.fetchBeneficiariesCount { count ->
+    fun getBeneficiariesCount() {
+        statisticsRepository.getBeneficiariesCount { count ->
             viewModelScope.launch {
                 _beneficiariesCount.value = count
             }
         }
     }
 
-    fun fetchVisitsCount() {
-        statisticsRepository.fetchVisitsCount { count ->
+    fun getVisitsCount(startDate: Long, endDate: Long) {
+        statisticsRepository.getVisitsCount(startDate, endDate) { count ->
             viewModelScope.launch {
                 _visitsCount.value = count
             }
         }
     }
 
-    fun fetchUsersBetweenDates(startDate: Long, endDate: Long) {
-        statisticsRepository.fetchUsersBetweenDates(startDate, endDate) { users ->
+    fun getUsersBetweenDates(startDate: Long, endDate: Long) {
+        statisticsRepository.getUsersBetweenDates(startDate, endDate) { users ->
             viewModelScope.launch {
                 _usersInRange.value = users
             }
         }
     }
 
-    fun fetchBeneficiariesByHouseHoldNumber(houseHoldNumber: String) {
-        statisticsRepository.fetchBeneficiariesByHouseHoldNumber(houseHoldNumber) { beneficiaries ->
+    fun getDifferentNationalities() {
+        statisticsRepository.getDifferentNationalities { nationatilies ->
             viewModelScope.launch {
-                _beneficiariesByHouseHoldNumber.value = beneficiaries
+                _nationalityNumbers.value = nationatilies
             }
         }
     }

@@ -8,10 +8,28 @@ import java.util.Locale
 fun formatTimestampToDateAndHour(timestamp: Timestamp?): String {
     return if (timestamp != null) {
         val date = timestamp.toDate()
-        val dateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         dateFormat.format(date)
     } else {
         "Unknown Date"
+    }
+}
+
+fun formatTimestampToDate(timestamp: Timestamp?): String {
+    return if (timestamp != null) {
+        val date = timestamp.toDate()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        dateFormat.format(date)
+    } else {
+        "Unknown Date"
+    }
+}
+
+fun convertLongToTimestamp(milliseconds: Long?): Timestamp? {
+    return if (milliseconds != null) {
+        Timestamp(milliseconds / 1000, ((milliseconds % 1000) * 1000000).toInt())
+    } else {
+        null
     }
 }
 
@@ -25,14 +43,4 @@ fun formatDate(dateInMillis: Long): String {
     val date = Date(dateInMillis)
     val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return format.format(date)
-}
-
-fun formatTimestampToDate(timestamp: Timestamp?): String {
-    return if (timestamp != null) {
-        val date = timestamp.toDate()
-        val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-        dateFormat.format(date)
-    } else {
-        "Unknown Date"
-    }
 }

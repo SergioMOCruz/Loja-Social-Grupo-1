@@ -26,7 +26,7 @@ class RequestsRepository {
     suspend fun getRequestsFromBeneficiary(profileId: String): List<Requests> {
         return try {
             val documentSnapshots = requestsCollection
-                .whereEqualTo("id_beneficiary", profileId)
+                .whereEqualTo("beneficiaryId", profileId)
                 .get()
                 .await()
                 .documents
@@ -34,7 +34,7 @@ class RequestsRepository {
             if (documentSnapshots.isNotEmpty()) {
                 documentSnapshots.mapNotNull { document ->
                     val data = document.data ?: return@mapNotNull null
-                    val idBeneficiary = data["id_beneficiary"] as? String ?: return@mapNotNull null
+                    val idBeneficiary = data["beneficiaryId"] as? String ?: return@mapNotNull null
                     val date = data["date"] as? Timestamp ?: return@mapNotNull null
 
                     val productsList = data["products"] as? List<*>
@@ -56,7 +56,7 @@ class RequestsRepository {
 
                     Requests(
                         id = document.id,
-                        id_beneficiary = idBeneficiary,
+                        beneficiaryId = idBeneficiary,
                         date = date,
                         products = products
                     )

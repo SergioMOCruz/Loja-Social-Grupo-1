@@ -47,7 +47,7 @@ fun HomeScreen(
         sessionsViewModel.getCloseSessions()
     }
 
-    val recentVisits = visitsViewModel.recentVisits.value
+    val recentVisits = visitsViewModel.recentVisits.collectAsState().value
 
     val openSessions = sessionsViewModel.openSessions.collectAsState().value
     val countOpenSession = openSessions?.size ?: 0
@@ -118,14 +118,6 @@ fun HomeScreen(
                     visit
                 )
             }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Text(
-                text = "Check-In Recentes",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
 
             Spacer(modifier = Modifier.height(16.dp))
         }

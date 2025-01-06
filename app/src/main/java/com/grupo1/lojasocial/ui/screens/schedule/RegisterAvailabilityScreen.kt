@@ -49,7 +49,6 @@ fun RegisterAvailabilityScreen(
     val currentUser by userViewModel.currentUser.collectAsState()
     val schedules by scheduleViewModel.schedules.collectAsState()
 
-    // Track selected schedules based on initial state
     var selectedSchedules by remember(schedules) {
         mutableStateOf(
             schedules.filter { schedule ->
@@ -58,12 +57,10 @@ fun RegisterAvailabilityScreen(
         )
     }
 
-    // Load schedules
     LaunchedEffect(key1 = currentUser?.id) {
         currentUser?.id?.let { scheduleViewModel.loadSchedulesForUser(it) }
     }
 
-    // Screen Layout
     Column(modifier = Modifier.fillMaxSize()) {
         SubHeaderScreen(
             title = "Registar Disponibilidade",
@@ -76,7 +73,6 @@ fun RegisterAvailabilityScreen(
             .padding(16.dp)
         ) {
             if (schedules.isEmpty()) {
-                // Exibe a mensagem quando não houver horários disponíveis
                 Text(
                     text = "Sem horários disponíveis",
                     style = MaterialTheme.typography.bodyLarge,
@@ -85,14 +81,13 @@ fun RegisterAvailabilityScreen(
                     modifier = Modifier.align(Alignment.Center)
                 )
             } else {
-                // Exibe os horários quando houver dados
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(schedules) { schedule ->
                         ScheduleItem(
                             schedule = schedule,
-                            currentUserId = currentUser!!.id, // Pass the currentUserId
-                            isChecked = selectedSchedules.contains(schedule.id), // Check if schedule is selected
-                            onUserToggle = { isChecked -> // Toggle schedule selection
+                            currentUserId = currentUser!!.id,
+                            isChecked = selectedSchedules.contains(schedule.id),
+                            onUserToggle = { isChecked ->
                                 selectedSchedules = if (isChecked) {
                                     selectedSchedules + schedule.id
                                 } else {
@@ -110,14 +105,12 @@ fun RegisterAvailabilityScreen(
                 val updatedSchedules = schedules.map { schedule ->
                     val isChecked = selectedSchedules.contains(schedule.id)
                     val updatedUsers = if (isChecked) {
-                        // Adiciona o ID do usuário se não estiver presente
                         if (schedule.users.none { it.id == currentUser!!.id }) {
                             schedule.users + User(id = currentUser!!.id)
                         } else {
                             schedule.users
                         }
                     } else {
-                        // Remove o ID do usuário se presente
                         schedule.users.filter { it.id != currentUser!!.id }
                     }
                     schedule.copy(users = updatedUsers)

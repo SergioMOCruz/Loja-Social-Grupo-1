@@ -82,6 +82,7 @@ fun PeopleScreen(
                                     localHistoryViewModel.insertBeneficiaryHistory(profile)
                                     navController.navigate("${Screen.ProfileBeneficiary.route}/${profile.id}")
                                 } else {
+                                    localHistoryViewModel.insertBeneficiaryHistory(profile)
                                     navController.navigate("${Screen.RegisterSession.route}/${profile.id}")
                                 }
                             },
@@ -112,6 +113,7 @@ fun PeopleScreen(
                                 localHistoryViewModel.insertBeneficiaryHistory(profile)
                                 navController.navigate("${Screen.ProfileBeneficiary.route}/${profile.id}")
                             } else {
+                                localHistoryViewModel.insertBeneficiaryHistory(profile)
                                 navController.navigate("${Screen.RegisterSession.route}/${profile.id}")
                             }
                         },

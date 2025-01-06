@@ -172,7 +172,7 @@ fun RegisterSessionScreen(
         Button(
             onClick = {
                 sessionsViewModel.openSession(profileId!!)
-                visitsViewModel.regVisit(profileId)
+                visitsViewModel.registerVisit(profileId)
                 navController.popBackStack()
             },
             modifier = Modifier

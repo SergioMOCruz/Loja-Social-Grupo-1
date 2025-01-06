@@ -2,6 +2,7 @@ package com.grupo1.lojasocial.data.repository
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.grupo1.lojasocial.utils.convertLongToTimestamp
 import com.grupo1.lojasocial.utils.formatDateToFirestore
 
 
@@ -11,37 +12,49 @@ class StatisticsRepository {
     private val visitsCollection = db.collection("visits")
     private val schedulesCollection = db.collection("schedules")
 
-    fun fetchBeneficiariesCount(onResult: (Int) -> Unit) {
+    fun getBeneficiariesCount(onResult: (Int) -> Unit) {
         beneficiariesCollection
             .get()
             .addOnSuccessListener { documents ->
                 onResult(documents.size())
             }
             .addOnFailureListener { exception ->
-                Log.e("StatisticsRepository", "Erro ao procurar número de beneficiários", exception)
+                Log.e("StatisticsRepository",
+                    "Error when searching for number of beneficiaries",
+                    exception)
                 onResult(0)
             }
     }
 
-    fun fetchVisitsCount(onResult: (Int) -> Unit) {
+    fun getVisitsCount(
+        startDateMillis: Long,
+        endDateMillis: Long,
+        onResult: (Int) -> Unit
+    ) {
+        val startDate = convertLongToTimestamp(startDateMillis)
+        val endDate = convertLongToTimestamp(endDateMillis)
+
         visitsCollection
+            .whereGreaterThanOrEqualTo("date", startDate!!)
+            .whereLessThanOrEqualTo("date", endDate!!)
             .get()
-            .addOnSuccessListener { documents ->
-                onResult(documents.size())
+            .addOnSuccessListener { querySnapshot ->
+                val totalCount = querySnapshot.size()
+                onResult(totalCount)
             }
             .addOnFailureListener { exception ->
-                Log.e("StatisticsRepository", "Erro ao procurar número de visitas", exception)
+                exception.printStackTrace()
                 onResult(0)
             }
     }
 
-    fun fetchUsersBetweenDates(
+
+    fun getUsersBetweenDates(
         startDateMillis: Long,
         endDateMillis: Long,
         onResult: (List<String>) -> Unit
     ) {
-        val startDate =
-            formatDateToFirestore(startDateMillis)
+        val startDate = formatDateToFirestore(startDateMillis)
         val endDate = formatDateToFirestore(endDateMillis)
 
         schedulesCollection
@@ -61,28 +74,26 @@ class StatisticsRepository {
             .addOnFailureListener { exception ->
                 Log.e(
                     "StatisticsRepository",
-                    "Erro ao procurar utilizadores no intervalo de datas",
+                    "Error when searching for users between dates",
                     exception
                 )
                 onResult(emptyList())
             }
     }
 
-    fun fetchBeneficiariesByHouseHoldNumber(
-        houseHoldNumber: String,
-        onResult: (List<String>) -> Unit
-    ) {
+    fun getDifferentNationalities(onResult: (List<String>) -> Unit) {
         beneficiariesCollection
-            .whereEqualTo("householdNumber", houseHoldNumber)
             .get()
             .addOnSuccessListener { documents ->
-                val beneficiaries = documents.map { it.getString("name") ?: "Nome não disponível" }
-                onResult(beneficiaries)
+                val nationalities = documents
+                    .mapNotNull { it.getString("nationality") }
+                    .distinct()
+                onResult(nationalities)
             }
             .addOnFailureListener { exception ->
                 Log.e(
                     "StatisticsRepository",
-                    "Erro ao procurar beneficiários por HouseHoldNumber",
+                    "Error when searching for different nationalities",
                     exception
                 )
                 onResult(emptyList())

@@ -20,12 +20,7 @@ class VisitsRepository {
                 .get()
                 .await()
 
-            querySnapshot.documents.mapNotNull { document ->
-                val userId = document.getString("beneficiaryId") ?: return@mapNotNull null
-                val date = document.getTimestamp("date") ?: return@mapNotNull null
-
-                Visit(userId, "", date)
-            }
+            querySnapshot.toObjects(Visit::class.java)
         } catch (e: Exception) {
             println("Error fetching last 5 visits: ${e.message}")
             null
@@ -53,10 +48,12 @@ class VisitsRepository {
         }
     }
 
-    suspend fun regVisit(beneficiaryId: String, beneficiaryRepository: BeneficiaryRepository) {
+    suspend fun registerVisit(beneficiaryId: String, beneficiaryRepository: BeneficiaryRepository) {
         val beneficiary = beneficiaryRepository.getBeneficiaryByUid(beneficiaryId) ?: return
 
-        val visit = Visit(beneficiaryId, beneficiary.name + " " + beneficiary.name, Timestamp.now())
+        Log.e("VisitsRepository", "Beneficiary: $beneficiary")
+
+        val visit = Visit(beneficiaryId, beneficiary.name + " " + beneficiary.surname, Timestamp.now())
 
         try {
             visitsCollection.add(visit).await()

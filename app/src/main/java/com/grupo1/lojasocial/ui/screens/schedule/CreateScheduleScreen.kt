@@ -49,7 +49,6 @@ fun CreateScheduleScreen(
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
 
-    // DatePickerDialog logic
     val datePickerDialog = remember {
         DatePickerDialog(
             context,
@@ -80,7 +79,6 @@ fun CreateScheduleScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Button for Date Picker
             Button(
                 onClick = { datePickerDialog.show() },
                 modifier = Modifier
@@ -102,14 +100,12 @@ fun CreateScheduleScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Start Time Picker Button
             Button(
                 onClick = {
                     val startTimePickerDialog = TimePickerDialog(
                         context,
                         { _, hour, minute ->
                             startTime = String.format("%02d:%02d", hour, minute)
-                            // Immediately show the End Time Picker after Start Time is selected
                             showEndTimePicker(context, hour, minute, onEndTimeChange = { selectedEndTime ->
                                 endTime = selectedEndTime
                             })
@@ -139,10 +135,8 @@ fun CreateScheduleScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Display End Time if Start Time is selected
             if (startTime.isNotEmpty()) {
 
-                // End Time Picker Button
                 Button(
                     onClick = {
                         showEndTimePicker(context, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), onEndTimeChange = { selectedEndTime ->
@@ -169,14 +163,13 @@ fun CreateScheduleScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Create Schedule Button
             Button(
                 onClick = {
                     if (date.isNotBlank() && startTime.isNotBlank() && endTime.isNotBlank()) {
                         isLoading = true
                         scheduleViewModel.createSchedule(date, "$startTime-$endTime")
                         isLoading = false
-                        navController.popBackStack() // Go back after creation
+                        navController.popBackStack()
                     }
                 },
                 modifier = Modifier
@@ -202,13 +195,11 @@ fun CreateScheduleScreen(
     }
 }
 
-// Function to show End Time Picker
 private fun showEndTimePicker(context: android.content.Context, startHour: Int, startMinute: Int, onEndTimeChange: (String) -> Unit) {
     val calendar = Calendar.getInstance()
     val endTimePickerDialog = TimePickerDialog(
         context,
         { _, hour, minute ->
-            // Ensure the end time is after the start time
             val formattedEndTime = String.format("%02d:%02d", hour, minute)
             onEndTimeChange(formattedEndTime)
         },

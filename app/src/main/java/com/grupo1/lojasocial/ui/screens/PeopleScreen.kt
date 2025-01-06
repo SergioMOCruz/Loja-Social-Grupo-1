@@ -108,8 +108,12 @@ fun PeopleScreen(
                         type = "recent_profile",
                         profiles = recentSearches,
                         onClick = { profile ->
-                            localHistoryViewModel.insertBeneficiaryHistory(profile)
-                            navController.navigate("${Screen.ProfileBeneficiary.route}/${profile.id}")
+                            if ( currentRoute === Screen.People.route) {
+                                localHistoryViewModel.insertBeneficiaryHistory(profile)
+                                navController.navigate("${Screen.ProfileBeneficiary.route}/${profile.id}")
+                            } else {
+                                navController.navigate("${Screen.RegisterSession.route}/${profile.id}")
+                            }
                         },
                         onRemoveClick = { searchToRemove ->
                             localHistoryViewModel.deleteBeneficiaryHistory(searchToRemove)
@@ -132,23 +136,23 @@ fun PeopleScreen(
             }
         }
 
-        FloatingActionButton(
-            onClick = {
-                if (currentRoute === Screen.People.route) {
+        if (currentRoute === Screen.People.route) {
+            FloatingActionButton(
+                onClick = {
                     navController.navigate(Screen.RegisterBeneficiary.route)
-                }
-            },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp),
-            containerColor = Color.White,
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Add",
-                tint = Color.Black
-            )
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
+                containerColor = Color.White,
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add",
+                    tint = Color.Black
+                )
+            }
         }
     }
 }

@@ -46,15 +46,15 @@ fun RegisterSessionScreen(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val profileId = navBackStackEntry?.arguments?.getString("profileId")
 
+    val beneficiary by beneficiaryViewModel.beneficiaryProfileWithNotes.collectAsState()
+    val visits by visitsViewModel.visitsCount.collectAsState()
+
     LaunchedEffect(key1 = profileId) {
         if (profileId != null) {
             beneficiaryViewModel.getBeneficiaryProfile(profileId)
             visitsViewModel.getVisitsByBeneficiaryId(profileId)
         }
     }
-
-    val beneficiary by beneficiaryViewModel.beneficiaryProfileWithNotes.collectAsState()
-    val visits by visitsViewModel.visitsCount.collectAsState()
 
     Column(
         modifier = Modifier
@@ -172,6 +172,7 @@ fun RegisterSessionScreen(
         Button(
             onClick = {
                 sessionsViewModel.openSession(profileId!!)
+                visitsViewModel.regVisit(profileId)
                 navController.popBackStack()
             },
             modifier = Modifier

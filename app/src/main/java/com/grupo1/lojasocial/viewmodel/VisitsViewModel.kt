@@ -45,4 +45,10 @@ class VisitsViewModel(
             _visitsCount.value = visits?.size ?: 0
         }
     }
+
+    fun regVisit(beneficiaryId: String) {
+        viewModelScope.launch {
+            visitsRepository.regVisit(beneficiaryId, beneficiaryRepository)
+        }
+    }
 }

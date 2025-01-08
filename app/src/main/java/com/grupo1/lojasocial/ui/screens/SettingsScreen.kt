@@ -95,19 +95,6 @@ fun SettingsScreen(
                     }
                 )
                 OptionCard(
-                    icon = Icons.Filled.Face,
-                    text = "Próximos Trabalhos",
-                    onClick = { /* Ação */ }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                OptionCard(
                     icon = Icons.Filled.DateRange,
                     text = "Ver Horários",
                     onClick = {
